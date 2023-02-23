@@ -12,21 +12,20 @@ function Register() {
 
                             <div className="mb-4">
                                 <div className='flex'>
-                                <div className="form-control w-full">
-                                    <label className="label">
-                                        <span className="label-text text-base-content bold ">First Name</span>
-                                    </label>
-                                    <input type='text' placeholder='' name='name' className="input  input-bordered w-full " />
-=======
-                                    <input type='email' placeholder='' className="input  input-bordered w-full " />
-                                </div>
+                                    <div className="form-control w-full">
+                                        <label className="label">
+                                            <span className="label-text text-base-content bold ">First Name</span>
+                                        </label>
+                                        <input type='text' placeholder='' name='name' className="input  input-bordered w-full " />
+                                        <input type='email' placeholder='' className="input  input-bordered w-full " />
+                                    </div>
 
-                                <div className="ml-3 form-control w-full">
-                                    <label className="label">
-                                        <span className="label-text text-base-content bold ">Second Name</span>
-                                    </label>
-                                    <input type='email'  placeholder='' className="input  input-bordered w-full " />
-                                </div>
+                                    <div className="ml-3 form-control w-full">
+                                        <label className="label">
+                                            <span className="label-text text-base-content bold ">Second Name</span>
+                                        </label>
+                                        <input type='email' placeholder='' className="input  input-bordered w-full " />
+                                    </div>
                                 </div>
 
                                 <div className="form-control w-full">
@@ -34,9 +33,9 @@ function Register() {
                                         <span className="label-text text-base-content bold ">Email</span>
                                     </label>
 
-                                    <input type='email'  placeholder='' name='email' className="input  input-bordered w-full " />
+                                    <input type='email' placeholder='' name='email' className="input  input-bordered w-full " />
 
-                                    <input type='email'  placeholder='' className="input  input-bordered w-full " />
+                                    <input type='email' placeholder='' className="input  input-bordered w-full " />
 
                                 </div>
 
@@ -45,9 +44,9 @@ function Register() {
                                         <span className="label-text text-base-content ">Password</span>
                                     </label>
 
-                                    <input type="password"  placeholder='' name='password' className="input  input-bordered w-full " />
+                                    <input type="password" placeholder='' name='password' className="input  input-bordered w-full " />
 
-                                    <input type="password"  placeholder='' className="input  input-bordered w-full " />
+                                    <input type="password" placeholder='' className="input  input-bordered w-full " />
 
                                 </div>
 
@@ -56,9 +55,9 @@ function Register() {
                                         <span className="label-text text-base-content ">Mobile No</span>
                                     </label>
 
-                                    <input type="number"  placeholder='' name='mobile' className="input  input-bordered w-full " />
+                                    <input type="number" placeholder='' name='mobile' className="input  input-bordered w-full " />
 
-                                    <input type="number"  placeholder='' className="input  input-bordered w-full " />
+                                    <input type="number" placeholder='' className="input  input-bordered w-full " />
 
                                 </div>
 
@@ -66,7 +65,7 @@ function Register() {
                                     <label className="label">
                                         <span className="label-text text-base-content ">OTP</span>
                                     </label>
-                                    <input type="number"  placeholder='' className="input  input-bordered w-1/2 " />
+                                    <input type="number" placeholder='' className="input  input-bordered w-1/2 " />
                                 </div>
 
                             </div>
