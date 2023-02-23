@@ -11,17 +11,11 @@ function Register() {
                         <form>
 
                             <div className="mb-4">
-
-<<<<<<< HEAD
-
-=======
                                 <div className='flex'>
->>>>>>> 656f3ecbe73240d2ebe8145f65918bbd53211820
                                 <div className="form-control w-full">
                                     <label className="label">
                                         <span className="label-text text-base-content bold ">First Name</span>
                                     </label>
-<<<<<<< HEAD
                                     <input type='text' placeholder='' name='name' className="input  input-bordered w-full " />
 =======
                                     <input type='email' placeholder='' className="input  input-bordered w-full " />
@@ -33,40 +27,39 @@ function Register() {
                                     </label>
                                     <input type='email'  placeholder='' className="input  input-bordered w-full " />
                                 </div>
->>>>>>> 656f3ecbe73240d2ebe8145f65918bbd53211820
                                 </div>
 
                                 <div className="form-control w-full">
                                     <label className="label">
                                         <span className="label-text text-base-content bold ">Email</span>
                                     </label>
-<<<<<<< HEAD
+
                                     <input type='email'  placeholder='' name='email' className="input  input-bordered w-full " />
-=======
+
                                     <input type='email'  placeholder='' className="input  input-bordered w-full " />
->>>>>>> 656f3ecbe73240d2ebe8145f65918bbd53211820
+
                                 </div>
 
                                 <div className="form-control w-full">
                                     <label className="label">
                                         <span className="label-text text-base-content ">Password</span>
                                     </label>
-<<<<<<< HEAD
+
                                     <input type="password"  placeholder='' name='password' className="input  input-bordered w-full " />
-=======
+
                                     <input type="password"  placeholder='' className="input  input-bordered w-full " />
->>>>>>> 656f3ecbe73240d2ebe8145f65918bbd53211820
+
                                 </div>
 
                                 <div className="form-control w-full">
                                     <label className="label">
                                         <span className="label-text text-base-content ">Mobile No</span>
                                     </label>
-<<<<<<< HEAD
+
                                     <input type="number"  placeholder='' name='mobile' className="input  input-bordered w-full " />
-=======
+
                                     <input type="number"  placeholder='' className="input  input-bordered w-full " />
->>>>>>> 656f3ecbe73240d2ebe8145f65918bbd53211820
+
                                 </div>
 
                                 <div className="form-control w-full">
