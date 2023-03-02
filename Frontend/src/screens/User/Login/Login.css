@@ -1,11 +1,9 @@
-.input {
+/* .input {
   background-color: #ffffff;
   
   height: 40px;
   padding: 10px;
-  /* text-align: center; */
 
-  /* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
 }
 
 .input:focus {
@@ -15,4 +13,4 @@
   box-shadow: -3px -3px 15px rgb(0, 255, 255);
   transition: .1s;
   transition-property: box-shadow;
-}
+} */

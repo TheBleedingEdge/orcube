@@ -17,14 +17,14 @@ function Login() {
                                     <label className="label">
                                         <span className="label-text text-base-content bold ">Email</span>
                                     </label>
-                                    <input type='email' value='' placeholder='' className="input  input-bordered w-full " />
+                                    <input type='email' value='' placeholder='' className="input input-sm input-bordered w-full " />
                                 </div>
 
                                 <div className="form-control w-full">
                                     <label className="label">
                                         <span className="label-text text-base-content ">Password</span>
                                     </label>
-                                    <input type="password" value='' placeholder='' className="input  input-bordered w-full " />
+                                    <input type="password" value='' placeholder='' className="input input-sm input-bordered w-full " />
                                 </div>
 
                             </div>
@@ -33,7 +33,9 @@ function Login() {
                             </div>
 
                             {/* <ErrorText styleClass="mt-8">{errorMessage}</ErrorText> */}
-                            <button type="submit" className="btn mt-2 w-full btn-primary">Login</button>
+                            <div className='justify-center'>
+                            <button type="submit" className="btn btn-sm mt-2 w-1/3 btn-primary">Login</button>
+                            </div>
 
                             <div className='text-center mt-4'>Don't have an account yet? <Link to="/register"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Register</span></Link></div>
                         </form>

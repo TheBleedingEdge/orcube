@@ -9,7 +9,7 @@ dotenv.config({path: "./config/.env"})
 const connect = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URL);
-        console.log("Connected to the MONGO ATLAS ")
+        console.log("Connected to the MONGO ATLAS")
       } catch (error) {
         throw error
       }
@@ -27,7 +27,7 @@ app.get("/", (req,res)=>{
     res.json("HEllo")
 })
 
-app.listen(8800, ()=>{
+app.listen(5888, ()=>{
     connect();
 
 })
