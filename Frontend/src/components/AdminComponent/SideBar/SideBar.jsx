@@ -1,25 +1,15 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 function SideBar() {
   return (
-    <div className="drawer-side shadow-xl">
-        <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-      <ul className="menu p-4 w-80 bg-slate-50 text-base-content">
-          {/* <!-- Sidebar content here --> */}
-          <li><a>Sales Report</a></li>
-          <div className="border-b"></div>
-          <li><a>Users</a></li>
-          <div className="border-b"></div>
-          <li><a>Hosts</a></li>
-          <div className="border-b"></div>
-          <li><a>Reservations</a></li>
-          <div className="border-b"></div>
-          <li><a>Reservations for Approval</a></li>
-          <div className="border-b"></div>
-          <li><a>settings</a></li>
-          <div className="border-b"></div>
-          <li><a>Logout</a></li>
-        </ul>
+    <div className="drawer-side mt-16">
+      <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+      <ul className="menu p-4 w-80 bg-base-100 text-base-content">
+        {/* <!-- Sidebar content here --> */}
+        <li><a>Sidebar Item 1</a></li>
+        <li><a>Sidebar Item 2</a></li>
+      </ul>
     </div>
   )
 }

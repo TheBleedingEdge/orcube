@@ -1,8 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from '../../../config/axios';
 import app from '../../../config/firebaseConfig';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from '../../../actions/userActions';
+import SimpleBackdrop from '../../common/Loading';
 
 
 
@@ -16,32 +19,32 @@ function Register() {
     const [ifpass, setIfpass] = useState('');
     const [otpconfirm, setOtpConfirm] = useState();
     const [verified, setVerified] = useState();
+
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const mobileno = useRef()
-
     const auth = getAuth(app);
 
 
-    const registerUser = async (req,res) => {
+    const userRegister = useSelector((state) => state.userRegister)
+    const { loading, userInfo } = userRegister;
+
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate("/");
+        }
+    }, [userInfo])
+    console.log("here data", userInfo);
+
+
+    const submitHandler = async (req, res) => {
         try {
-            const mobile = mobileno.current.value
-            console.log(mobile);
             if (password === Cpassword) {
                 setIfpass(false)
-                const { data } = await axios.post('/api/user/register', {
-                    name,
-                    email,
-                    password,
-                    mobile
-                })
-                console.log(data)
-                if (data != null) {
-                    navigate("/")
-                    alert("Registration Completed")
-                } else {
-                    alert("Registration failed")
-                }
+                dispatch(register(name, email, password, mobileno));
             }
             else {
                 setIfpass(true)
@@ -51,9 +54,10 @@ function Register() {
         }
     }
 
-function empty() {
 
-}
+    function empty() { //for submit condition
+
+    }
 
     async function sentOtp() {
         console.log('get into sentotp function');
@@ -74,13 +78,10 @@ function empty() {
         }
 
         const appVerifier = window.recaptchaVerifier;
-        console.log("123345", appVerifier);
-        console.log("123345", auth);
         const ph = '+91' + mobileno.current.value
         console.log('mob', ph);
         await signInWithPhoneNumber(auth, ph, appVerifier)
             .then((confirmationResult) => {
-                console.log("123");
                 // SMS sent. Prompt user to type the code from the message, then sign the
                 // user in with confirmationResult.confirm(code).
                 setOtpConfirm(confirmationResult)
@@ -93,7 +94,7 @@ function empty() {
             });
     }
 
-    const verifyOTP = async() => {
+    const verifyOTP = async () => {
         try {
             const verifiedotp = await otpconfirm.confirm(otp)
             console.log(verifiedotp);
@@ -106,9 +107,10 @@ function empty() {
 
     return (
         <div className="min-h-screen bg-slate-50 flex items-center">
-            <div className="card mt-10 mx-auto w-full max-w-xl  shadow-xl">
+            {loading && <SimpleBackdrop />}
+            <div className="card mx-auto w-full max-w-xl  shadow-xl">
                 <div className="  bg-base-100 rounded-xl">
-                    <div className='py-24 px-10'>
+                    <div className='py-14 px-10'>
                         <h2 className='text-2xl font-semibold mb-2 text-center'>Register</h2>
                         <div className="mb-4">
                             <div className='flex'>
@@ -195,7 +197,7 @@ function empty() {
 
                         {/* <ErrorText styleClass="mt-8">{errorMessage}</ErrorText> */}
                         <button type="submit" onClick={() => {
-                            verified ? registerUser()  : empty()
+                            verified ? submitHandler() : empty()
                         }} className="btn btn-md mt-2 w-1/3 btn-primary">Register</button>
 
                         <div className='text-center mt-4'>Have an account yet? <Link to="/login"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span></Link></div>

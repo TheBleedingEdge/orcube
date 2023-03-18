@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./routes/usersRoutes")
+const adminRoutes = require("./routes/adminRoutes")
+const hostRoutes = require("./routes/hostRoutes")
 
 // const User = require('./models/userModel')
 
@@ -22,7 +24,7 @@ app.use(Express.json());
 
 const connect = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URL);
+        mongoose.connect(process.env.MONGO_URL);
         console.log("Connected to the MONGO ATLAS")
     } catch (error) {
         throw error
@@ -37,11 +39,9 @@ mongoose.connection.on("connected", () => {
 
 
 app.use("/api/user", userRoutes)
+app.use("/api/admin", adminRoutes)
+app.use("/api/host", hostRoutes)
 
-app.get('/userdocs', async(req,res)=> {
-    const userdocs = await User.find();
-    res.json(userdocs)
-})
 
 
 app.listen(5000, () => {

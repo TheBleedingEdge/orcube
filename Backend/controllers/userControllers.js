@@ -22,9 +22,7 @@ module.exports = {
                 mobile
             })
             const userDoc = await user.save()
-            console.log(user);
-            res.status(201).json({ user });
-
+            console.log(userDoc);
             if (userDoc) {
                 res.status(201).json({
                     _id: user.id,
