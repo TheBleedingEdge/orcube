@@ -1,12 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../../config/axios';
 import app from '../../../config/firebaseConfig';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from '../../../actions/userActions';
 import SimpleBackdrop from '../../common/Loading';
-
 
 
 
@@ -19,6 +20,7 @@ function Register() {
     const [ifpass, setIfpass] = useState('');
     const [otpconfirm, setOtpConfirm] = useState();
     const [verified, setVerified] = useState();
+    const [timeLeft, setTimeLeft] = useState(0);
 
 
     const navigate = useNavigate();
@@ -31,13 +33,24 @@ function Register() {
     const userRegister = useSelector((state) => state.userRegister)
     const { loading, userInfo } = userRegister;
 
-
     useEffect(() => {
         if (userInfo) {
             navigate("/");
         }
     }, [userInfo])
-    console.log("here data", userInfo);
+
+
+    useEffect(() => {
+        let intervalId;
+        if (timeLeft > 0) {
+            intervalId = setInterval(() => {
+                setTimeLeft(timeLeft - 1);
+            }, 1000);
+            console.log(timeLeft);
+        }
+        return () => clearInterval(intervalId);
+    }, [timeLeft]);
+
 
 
     const submitHandler = async (req, res) => {
@@ -55,24 +68,37 @@ function Register() {
     }
 
 
-    function empty() { //for submit condition
-
+    function empty() {
+        toast.warn('OTP not verified', {
+            position: "top-center",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            }); //for submit condition
     }
+
 
     async function sentOtp() {
         console.log('get into sentotp function');
         try {
-            window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-                'size': 'invisible',
-                'callback': (response) => {
-                    // reCAPTCHA solved, allow signInWithPhoneNumber.
-                    // ...
-                },
-                'expired-callback': () => {
-                    // Response expired. Ask user to solve reCAPTCHA again.
-                    // ...
-                }
-            }, auth);
+            console.log("COundown starts");
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+                    'size': 'invisible',
+                    'callback': (response) => {
+                        // reCAPTCHA solved, allow signInWithPhoneNumber.
+                        // ...
+                    },
+                    'expired-callback': () => {
+                        // Response expired. Ask user to solve reCAPTCHA again.
+                        // ...
+                    }
+                }, auth);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -82,6 +108,17 @@ function Register() {
         console.log('mob', ph);
         await signInWithPhoneNumber(auth, ph, appVerifier)
             .then((confirmationResult) => {
+                setTimeLeft(90);
+                toast.success('OTP sent Successfully', {
+                    position: "top-center",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
                 // SMS sent. Prompt user to type the code from the message, then sign the
                 // user in with confirmationResult.confirm(code).
                 setOtpConfirm(confirmationResult)
@@ -90,24 +127,73 @@ function Register() {
             }).catch((error) => {
                 // Error; SMS not sent
                 // ...
+                toast.error('An Error Occured', {
+                    position: "top-center",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
                 console.log(error);
             });
     }
 
+
+
     const verifyOTP = async () => {
         try {
             const verifiedotp = await otpconfirm.confirm(otp)
+            if(verified){
+                toast.success('OTP verified successfully', {
+                    position: "top-center",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+            }
             console.log(verifiedotp);
             setVerified(verifiedotp)
         } catch (error) {
+            toast.error('Error in OTP veirfication', {
+                position: "top-center",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
             console.log(error);
         }
     }
 
 
+
+
+
     return (
         <div className="min-h-screen bg-slate-50 flex items-center">
             {loading && <SimpleBackdrop />}
+            <ToastContainer
+                position="top-center"
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="card mx-auto w-full max-w-xl  shadow-xl">
                 <div className="  bg-base-100 rounded-xl">
                     <div className='py-14 px-10'>
@@ -172,7 +258,13 @@ function Register() {
                                         //     }} 
                                         ref={mobileno}
                                         type="text" placeholder='' name='mobile' className="input input-md input-bordered w-3/4 " />
-                                    <button onClick={sentOtp} className="btn btn-info w-1/5 ml-5">Sent OTP</button>
+                                    {
+                                        timeLeft == 0 ? <button onClick={sentOtp} className="btn btn-info w-1/5 ml-5">
+                                            Sent OTP
+                                        </button> : <span className="countdown ml-5 font-mono text-lg text-red-500">
+                                            {timeLeft}
+                                        </span>
+                                    }
                                 </div>
                             </div>
 
@@ -197,7 +289,11 @@ function Register() {
 
                         {/* <ErrorText styleClass="mt-8">{errorMessage}</ErrorText> */}
                         <button type="submit" onClick={() => {
-                            verified ? submitHandler() : empty()
+                            if (verified) {
+                                submitHandler()
+                            } else {
+                                empty()
+                            }
                         }} className="btn btn-md mt-2 w-1/3 btn-primary">Register</button>
 
                         <div className='text-center mt-4'>Have an account yet? <Link to="/login"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span></Link></div>

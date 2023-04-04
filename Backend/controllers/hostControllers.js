@@ -27,48 +27,11 @@ const s3 = new S3Client({
 
 
 module.exports = {
-    // getImage: asyncHandler(async (req, res) => {
-    //     try {
-    //         const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
-    //         console.log(bucketName);
-
-    //         const pic = req.file;
-    //         // res.send(pic);
-    //         console.log(pic);
-
-    //         const buffer = await sharp(req.file.buffer).resize({height: 264, width: 398}).toBuffer()
-
-    //         ImageName = randomImageName()
-    //         const params = {
-    //             AccessControlPolicy: {},
-    //             GrantRead: "uri=http://acs.amazonaws.com/groups/global/AllUsers",
-    //             Bucket: bucketName,
-    //             Key: ImageName,
-    //             Body: buffer,
-    //             ContentType: req.file.mimetype,
-
-    //         }
-    //         console.log("Key here", params.Key);
-    //         const command = new PutObjectCommand(params)
-    //         const response = await s3.send(command)
-    //         console.log(response);
-
-    //         if(response) {
-    //             const awsurl = 'https://orcubeimages.s3.ap-south-1.amazonaws.com/'
-    //             const fullurl = awsurl+ImageName
-
-    //             res.status(201).json(fullurl)
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }),
 
     getSpace: asyncHandler(async (req, res) => {
         try {
 
-            const { HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets } = req.body;
+            const { HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets, hostcoord } = req.body;
             const Guests = {
                 Adult: countAdult,
                 Children: countChildren,
@@ -92,7 +55,8 @@ module.exports = {
                 Discription,
                 Price,
                 Guests,
-                Perks
+                Perks,
+                coordinates:hostcoord
             });
 
             const savedPost = await post.save();
@@ -101,11 +65,6 @@ module.exports = {
             console.log(error);
         }
     }),
-
-
-
-
-
 
     getImage: asyncHandler(async (req, res) => {
         try {
@@ -127,8 +86,6 @@ module.exports = {
                 }),
 
             }).array('image', 5);
-
-
 
             uploadS3(req, res, (error) => {
                 // console.log('files', req.files);
@@ -171,4 +128,5 @@ module.exports = {
             console.log(error);
         }
     }),
+
 }

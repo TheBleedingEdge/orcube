@@ -1,6 +1,7 @@
 import axios from "../config/axios";
 import { userRegisterReq, userRegisterSuccess, userRegisterFail } from "../features/userSlice/userRegisterSlice";
 import { userLoginReq, userLoginSuccess, userLoginFail } from "../features/userSlice/userLoginSlice";
+import { getSpaceReq, getSpaceSuccess, getSpaceFail } from "../features/userSlice/getSpaceSlice";
 
 export const register = (name, email, password, mobileno) => async (dispatch) => {
     try {
@@ -14,6 +15,7 @@ export const register = (name, email, password, mobileno) => async (dispatch) =>
         })
         if (data) {
             dispatch(userRegisterSuccess(data))
+            dispatch(userLoginSuccess(data))
             localStorage.setItem("userInfo", JSON.stringify(data));
         }
     }
@@ -30,14 +32,30 @@ export const loginUser = (email, password) => async (dispatch) => {
             email,
             password
         })
+        
         if (data) {
             dispatch(userLoginSuccess(data))
+            console.log({ data });
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            console.log(data);
         }
-        console.log({ data });
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        console.log(data);
     } catch (error) {
-        dispatch(userLoginFail(error))
+        const errorIs =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
     }
+}
 
+
+export const getSpaces = () => async (dispatch) => {
+    try {
+        dispatch(getSpaceReq());
+        const { data } = await axios.get('/api/user/getspaces')
+        console.log("spaces are", data);
+        dispatch(getSpaceSuccess(data));
+    } catch (error) {
+        getSpaceFail();
+        console.log(error);
+    }
 }

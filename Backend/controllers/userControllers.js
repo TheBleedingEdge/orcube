@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Space = require("../models/SpaceModel")
 const generateToken = require("../util/generateToken");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
@@ -13,7 +14,6 @@ module.exports = {
     //register
     registerUser: asyncHandler(async (req, res) => {
         try {
-            console.log('hello');
             const { name, email, password, mobile } = req.body;
             const user = await User.create({
                 name,
@@ -49,7 +49,6 @@ module.exports = {
     loginUser: asyncHandler(async (req, res) => {
         const { email, password } = req.body;
         const userData = await User.findOne({ email: email })
-
         if (userData != null) {
             const passOk = bcrypt.compareSync(password, userData.password)
             if (passOk) {
@@ -68,5 +67,16 @@ module.exports = {
         } else {
             res.status(422).json("User not found")
         }
-    })
+    }),
+
+
+
+    getSpaces: asyncHandler(async (req, res) => {
+        try {
+            const spacedocs = await Space.find({isApproved: true});
+            res.json(spacedocs)
+        } catch (error) {
+            console.log(error);
+        }
+    }),
 }

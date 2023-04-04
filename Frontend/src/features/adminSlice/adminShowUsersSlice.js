@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {};
 const adminShowUserReducer = createSlice({
-    name: 'user',
+    name: 'adminShowUsersSlice',
     initialState,
     reducers: {
         adminShowUserReq: (state, action) => {

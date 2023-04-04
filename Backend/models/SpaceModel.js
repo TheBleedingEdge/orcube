@@ -30,6 +30,16 @@ const spaceSchema = mongoose.Schema(
                 required: true,
             }]
         },
+        coordinates: {
+            latitude:{
+                type: Number,
+                required: true,
+            },
+            longitude: {
+                type: Number,
+                required: true,
+            }     
+        },
 
         Guests: {
             Adult: {

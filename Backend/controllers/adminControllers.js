@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Space = require("../models/SpaceModel")
 
 module.exports = {
     getUsers: asyncHandler(async (req, res) => {
@@ -26,5 +27,33 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
-    })
+    }),
+
+
+
+    getToApproveSpace: asyncHandler(async (req, res) => {
+        try {
+            const spacedocs = await Space.find({isApproved: false});
+            res.json(spacedocs)
+        } catch (error) {
+            console.log(error);
+        }
+    }),
+
+    changeSpaceStatus: asyncHandler(async (req, res) => {
+        try {
+            const space = await Space.findById(req.params.id)
+            if (space.isApproved === true) {
+                space.isApproved = false;
+                await space.save();
+                res.json(space)
+            } else {
+                space.isApproved = true;
+                await space.save();
+                res.json(space)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }),
 }

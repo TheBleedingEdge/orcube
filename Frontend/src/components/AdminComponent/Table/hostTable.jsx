@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getUsers,changeStatus } from '../../../actions/adminActions';
 import classNames from "classnames";
 
-function Table() {
+function HostTable() {
 
   const [isBlocked, setisBlocked] = useState(true);
   const buttonClassNames = classNames(
@@ -21,8 +21,6 @@ function Table() {
   const dispatch = useDispatch();
   const usersDocs = useSelector((state) => state.adminShowUsers)
   const { userData } = usersDocs
-  const hostsData = userData?.filter(userData => userData.isHost === true)
-  console.log("got all users", usersDocs);
 
   useEffect(() => {
     userDoc();
@@ -39,9 +37,8 @@ function Table() {
 
 
 
-
   return (
-    <div className="overflow-x-auto w-full">
+    <div className="overflow-x-auto mt-16 w-full">
       <table className="table w-full">
         {/* <!-- head --> */}
         <thead>
@@ -59,8 +56,10 @@ function Table() {
         </thead>
 
 
-        {hostsData?.map((data, index) => (
-          <tbody>
+        {userData?.map((data, index) => {
+          if(data.isHost == true){
+            console.log("Data here is",data);
+            return(<tbody>
             <tr key={index}>
               <th>
                 <label>
@@ -95,8 +94,9 @@ function Table() {
                 </button>
               </th>
             </tr>
-          </tbody>
-        ))}
+          </tbody>)
+          }
+})}
         {/* <!-- row 1 --> */}
 
 
@@ -122,4 +122,4 @@ function Table() {
   )
 }
 
-export default Table
+export default HostTable
