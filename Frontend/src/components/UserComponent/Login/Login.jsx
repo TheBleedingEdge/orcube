@@ -12,20 +12,29 @@ function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-
+    const userInfoFromStorage = localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo'))
+    : null;
 
     const userLogin = useSelector((state) => state.userLogin)
     const { loading, userInfo } = userLogin;
 
 
     useEffect(() => {
-        if (userInfo) {
-            navigate("/");
+        if(userInfoFromStorage && !userInfoFromStorage?.isAdmin){
+            navigate("/")
         }
-    }, [userInfo])
+        else if (userInfoFromStorage?.isAdmin) {
+            navigate("/admin/dashboard");
+        }
+        else {
+            navigate("/login");
+        }
+    }, [userInfoFromStorage])
 
+
+    
     const loginHandler = () => {
-        console.log("loginuser");
         dispatch(loginUser(email, password))
     }
 

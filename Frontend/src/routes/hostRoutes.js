@@ -11,8 +11,22 @@ import Register from '../screens/User/Register/Register';
 import { dividerClasses } from '@mui/material';
 import Checkout from '../screens/User/Checkout/Checkout';
 import PaymentSuccess from '../screens/User/PaymentSuccess/PaymentSuccess';
+import AuthWrapper from '../auth/AuthWrapper';
 
-function userRoutes() {
+function hostRoutes() {
+
+
+    const userInfoFromStorage = localStorage.getItem('userInfo')
+        ? JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+
+    const isAuthenticated = userInfoFromStorage !== null;
+    const user = userInfoFromStorage
+
+    const userRole = {
+        isAdmin: user?.isAdmin,
+        isHost: user?.isHost
+    }
 
     return (
         <Routes>
@@ -22,7 +36,17 @@ function userRoutes() {
             <Route path='/useraccount' element={<UserAccount />} />
             <Route path='/productdetails/:id' element={<ProductDetails />} />
             <Route path='/becomehost' element={<BecomeHost />} />
-            <Route path='/hostupload' element={<HostUpload />} />
+            <Route
+                path="/host/dashboard"
+                element={
+                    <AuthWrapper
+                        user={userRole}
+                        allowedRoles={['isHost']}
+                    >
+                        <HostUpload />
+                    </AuthWrapper>
+                }
+            />
             <Route path='/register' element={<Register />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='/checkout_success' element={<PaymentSuccess />} />
@@ -30,4 +54,4 @@ function userRoutes() {
     )
 }
 
-export default userRoutes
+export default hostRoutes

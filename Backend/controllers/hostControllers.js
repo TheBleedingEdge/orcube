@@ -31,7 +31,7 @@ module.exports = {
     getSpace: asyncHandler(async (req, res) => {
         try {
 
-            const { HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets, hostcoord } = req.body;
+            const { HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets, hostcoord, inputValue } = req.body;
             const Guests = {
                 Adult: countAdult,
                 Children: countChildren,
@@ -56,7 +56,8 @@ module.exports = {
                 Price,
                 Guests,
                 Perks,
-                coordinates:hostcoord
+                coordinates:hostcoord,
+                Location:inputValue
             });
 
             const savedPost = await post.save();

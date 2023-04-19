@@ -1,11 +1,11 @@
 const express = require("express");
 const Host = require("../controllers/hostControllers");
-const protect = require("../middleware/authMiddleware")
+const auth = require("../middleware/authMiddleware")
 const multer = require("multer");
 
-const hostRouter = express.Router();
+const router = express.Router();
 
-hostRouter.route("/spaceuploadpic").post(protect, Host.getImage);
-hostRouter.route("/spaceupload").post(protect, Host.getSpace);
+router.route("/spaceuploadpic").post(Host.getImage)
+router.route("/spaceupload").post(auth.protect,auth.protectHost,Host.getSpace);
 
-module.exports = hostRouter;
+module.exports = router;

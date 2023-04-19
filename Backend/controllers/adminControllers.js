@@ -14,6 +14,7 @@ module.exports = {
 
     changeStatus: asyncHandler(async (req, res) => {
         try {
+            console.log(req.params.id);
             const user = await User.findById(req.params.id)
             if (user.isBlocked === true) {
                 user.isBlocked = false;

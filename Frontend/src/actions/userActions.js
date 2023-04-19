@@ -59,3 +59,23 @@ export const getSpaces = () => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const Booking = (name, email, password, mobileno) => async (dispatch) => {
+    try {
+        const mobile = mobileno.current.value
+        const { data } = await axios.post('/api/user/register', {
+            name,
+            email,
+            password,
+            mobile
+        })
+        if (data) {
+            dispatch(userRegisterSuccess(data))
+            dispatch(userLoginSuccess(data))
+            localStorage.setItem("userInfo", JSON.stringify(data));
+        }
+    }
+    catch (error) {
+        dispatch(userRegisterFail(error))
+    }
+}

@@ -79,4 +79,16 @@ module.exports = {
             console.log(error);
         }
     }),
+
+
+
+    clickProduct: asyncHandler(async (req, res) => {
+        try {
+            const space = await Space.findById(req.params.id)
+            res.json(space)
+        } catch (error) {
+            // res.status(422).json(error);
+            console.log(error);
+        }
+    }),
 }

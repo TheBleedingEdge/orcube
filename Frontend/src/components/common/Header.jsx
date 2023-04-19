@@ -1,15 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
 
+  const navigate = useNavigate();
+
   const userLogin = useSelector((state) => state.userLogin);
   const {userInfo} = userLogin;
 
+  const handleLogout = () => {
+    localStorage.removeItem('userInfo');
+    navigate('/');
+  }
 
   return (
-    <div className="w-full navbar bg-cyan-600 z-10 fixed">
+    <div className="w-full navbar bg-cyan-600 z-30 fixed">
       <div className="flex-none lg:hidden">
         <label htmlFor="my-drawer-2" className="btn btn-square btn-ghost">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -19,7 +26,7 @@ const Header = () => {
       <div className="flex-none hidden lg:block">
         <ul className="menu menu-horizontal">
           {/* <!-- Navbar menu content here --> */}
-          <li className='shadow-md'><a>Hi, {userInfo?.name}</a></li>
+          <li className='shadow-md'><a>{userInfo?.name}</a></li>
         </ul>
       </div>
       <div className="dropdown dropdown-end">
@@ -36,7 +43,7 @@ const Header = () => {
             </a>
           </li>
           <li><a>Settings</a></li>
-          <li><a>Logout</a></li>
+          <li onClick={()=>{handleLogout()}}><a>Logout</a></li>
         </ul>
       </div>
     </div>

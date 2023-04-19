@@ -21,8 +21,35 @@ function HostUpload() {
   const [countAdult, setCountAdult] = useState(1);
   const [countChildren, setCountChildren] = useState(0);
   const [countPets, setCountPets] = useState(0);
-  const [lng, setLng] = useState(0);
-  const [lat, setLat] = useState(0);
+
+  const [inputValue, setInputValue] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [longit, setLongtit] = useState(0);
+  const [latit, setLatit] = useState(0);
+ 
+
+  const handleInputChange = async (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+
+    try {
+      const response = await axios.get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?access_token=${mapBoxKey}`
+      );
+
+      setSuggestions(response.data.features);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    // [longit, latit] = suggestion.center;
+    setLatit(suggestion.center[0])
+    setLongtit(suggestion.center[1])
+    setInputValue(suggestion.place_name);
+    setSuggestions([]);
+  };
 
   // const [imageurl, setImageUrl] = useState('');
 
@@ -38,7 +65,7 @@ function HostUpload() {
     var HostId = userInfo._id
   }
 
-  const {hostcoord} = useSelector((state) => state.hostUpload);
+  const { hostcoord } = useSelector((state) => state.hostUpload);
   const dispatch = useDispatch();
 
   const submitPic = async event => {
@@ -65,7 +92,7 @@ function HostUpload() {
   const submitData = async () => {
     console.log("Imagae data here", ref.current.imageurl);
     const imageUrl = ref.current.imageurl
-    dispatch(SpaceUpload(HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets, hostcoord))
+    dispatch(SpaceUpload(HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets, hostcoord, inputValue))
   }
 
   // const fileSelected = event => {
@@ -191,8 +218,28 @@ function HostUpload() {
               </section>
 
               <section className='border border-black'>
-                <MapboxHost/>
+                <MapboxHost latit={latit} longit={longit} />
               </section>
+    
+                <div className="form-control w-full max-w-xs relative">
+                  <label className="label">
+                    <span className="label-text">Select Place</span>
+                  </label>
+                  <input type="text" value={inputValue} onChange={handleInputChange} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+                  <label className="label">
+                  </label>
+
+                  <ul className="menu bg-base-100 w-65 rounded-box flex absolute mt-24">
+                    {suggestions.map((suggestion) => (
+                      <li className='hover-bordered' key={suggestion.id} onClick={() => handleSuggestionClick(suggestion)}><a>
+                        {suggestion.place_name}
+                        </a></li>
+                    ))}
+                  </ul>
+
+
+                </div>
+      
             </div>
 
 

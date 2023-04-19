@@ -40,6 +40,10 @@ const spaceSchema = mongoose.Schema(
                 required: true,
             }     
         },
+        Location: {
+            type: String,
+            required: true,
+        },
 
         Guests: {
             Adult: {

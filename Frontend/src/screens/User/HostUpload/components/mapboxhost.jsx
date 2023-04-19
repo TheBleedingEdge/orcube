@@ -7,15 +7,17 @@ import getCenter from 'geolib/es/getCenter'
 import './mapboxhost.css'
 import { hostUploadReq, hostUploadSuccess, hostUploadFail } from '../../../../features/hostSlice/hostUploadSlice';
 
-function MapboxHost() {
+function MapboxHost({latit, longit}) {
 
     const [marker, setMarker] = useState({
         longitude: 0,
         latitude: 0
     });
 
+    console.log("place here", latit,longit);
+
     const dispatch = useDispatch();
-    const center = getCenter([{ latitude: 20.5937, longitude: 78.9629 }]);
+    const center = getCenter([{ latitude: latit, longitude: longit }]);
 
     useEffect(() => {
         dispatch(hostUploadSuccess(marker))

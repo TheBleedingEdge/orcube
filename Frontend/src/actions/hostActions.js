@@ -2,7 +2,7 @@ import axios from "../config/axios";
 import { activeSpaceDataReq, activeSpaceDataSuccess, activeSpaceDataFail } from "../features/adminSlice/activeSpaceDataSlice";
 import { hostUploadReq, hostUploadSuccess, hostUploadFail } from "../features/hostSlice/hostUploadSlice";
 
-export const SpaceUpload  = (HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets, hostcoord) => async (dispatch, getState) => {
+export const SpaceUpload  = (HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets, hostcoord, inputValue) => async (dispatch, getState) => {
     try {
         dispatch(hostUploadReq());
         const {
@@ -29,7 +29,8 @@ export const SpaceUpload  = (HostId, imageUrl, Title, Address, Discription, Pric
             countAdult,
             countChildren,
             countPets,
-            hostcoord
+            hostcoord,
+            inputValue
         }, config)
         if(data){
             dispatch(hostUploadSuccess(data))

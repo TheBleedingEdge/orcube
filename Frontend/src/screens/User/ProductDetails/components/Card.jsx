@@ -1,23 +1,61 @@
-import React, { Children, useState } from 'react'
+import React, { Children, useEffect, useState } from 'react'
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+import './card.css';
+import axios from '../../../../config/axios';
 
-function Card() {
+function Card({ cardData }) {
 
     const [countAdult, setCountAdult] = useState(1);
-    const [countChildren, setCountChildren] = useState(0);
+    const [countChildren, setCountChildren] = useState(1);
     const [countPets, setCountPets] = useState(0);
 
+    const [firstDate, setFirstDate] = useState(null);
+    const [secondDate, setSecondDate] = useState(null);
+    const [Total, setTotal] = useState(0);
+
+    const diffInDays = dayjs(secondDate).diff(dayjs(firstDate), 'day');
+
+    const handleFirstDateChange = (newValue) => {
+        setFirstDate(newValue);
+    };
+
+    const handleSecondDateChange = (newValue) => {
+        setSecondDate(newValue);
+    };
+
+    useEffect(() => {
+        { setTotal(cardData?.Price * diffInDays + 2000) }
+    }, [diffInDays])
+
+    const handleCheckout = () => {
+        axios.post('api/stripe/create-checkout-session', {
+            countAdult,countChildren,countPets,firstDate,secondDate,Total,diffInDays
+        })
+        .then((res)=>{
+            if (res.data.url) {
+                window.location.href = res.data.url
+            }
+        })
+        .catch((err) => console.log(err.message))
+    }
 
 
+    // const submitData = async () => {
+    //     console.log("Imagae data here", ref.current.imageurl);
+    //     const imageUrl = ref.current.imageurl
+    //     dispatch(SpaceUpload(countAdult, countChildren, countPets, firstDate, secondDate, diffInDays))
+    //   }
 
     return (
-        <div className="card w-100 bg-base-100 shadow-xl">
-            <div className="card-body">
-                <h2 className="card-title">Example</h2>
-
-
+        <div class="card w-2/3 bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Book Here</h2>
                 <div class="lg:col-span-2 lg:row-span-2 lg:row-end-2">
-                    <h1 class="sm: text-2xl font-bold text-gray-900 sm:text-3xl">Canada</h1>
-
+                    {/* <h1 class="sm:text-2xl font-bold text-gray-900 sm:text-3xl">Canada</h1> */}
                     <div class="mt-5 flex items-center">
                         <div class="flex items-center">
                             <svg class="block h-4 w-4 align-middle text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -38,8 +76,6 @@ function Card() {
                         </div>
                         <p class="ml-2 text-sm font-medium text-gray-500">1,209 Reviews</p>
                     </div>
-
-
                     <div className="collapse">
                         <input type="checkbox" className="peer" />
                         <div className="collapse-title bg-slate-300 rounded-xl">
@@ -49,13 +85,13 @@ function Card() {
                             <div className="prose flex items-center justify-center w-full">
                                 <label htmlFor=""><h4>Adult</h4></label>
                                 <div className='ml-10'>
-                                    <button onClick={() => setCountAdult((obj) => obj - 1)} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
+                                    <button onClick={() => setCountAdult((prev) => Math.max(prev - 1, 0))} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
                                         </svg>
                                     </button>
                                     <input value={countAdult} type="number" className="w-16 text-xl text-center border-b border-gray-700 px-3 py-1 rounded-md focus:outline-none" />
-                                    <button onClick={() => setCountAdult((obj) => obj + 1)} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
+                                    <button onClick={() => setCountAdult((prev) => Math.min(prev + 1, cardData.Guests.Adult))} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                         </svg>
@@ -66,13 +102,13 @@ function Card() {
                             <div className="prose flex items-center justify-center w-full">
                                 <label className='mr-2' htmlFor=""><h4>Children</h4></label>
                                 <div className='ml-3.5'>
-                                    <button onClick={() => countChildren((obj) => obj - 1)} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
+                                    <button onClick={() => setCountChildren((prev) => Math.max(prev - 1, 0))} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
                                         </svg>
                                     </button>
-                                    <input value={countChildren} onClick={() => setCountChildren((obj) => obj + 1)} type="number" className="w-16 text-xl text-center border-b border-gray-700 px-3 py-1 rounded-md focus:outline-none" />
-                                    <button className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
+                                    <input value={countChildren} type="number" className="w-16 text-xl text-center border-b border-gray-700 px-3 py-1 rounded-md focus:outline-none" />
+                                    <button onClick={() => setCountChildren((prev) => Math.min(prev + 1, cardData.Guests.Children))} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                         </svg>
@@ -83,13 +119,13 @@ function Card() {
                             <div className="prose flex items-center justify-center w-full">
                                 <label className='mr-2' htmlFor=""><h4>Pets</h4></label>
                                 <div className='ml-12'>
-                                    <button onClick={() => countPets((obj) => obj - 1)} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
+                                    <button onClick={() => setCountPets((prev) => Math.max(prev - 1, 0))} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
                                         </svg>
                                     </button>
-                                    <input value={countPets} onClick={() => setCountPets((obj) => obj + 1)} type="number" className="w-16 text-xl text-center border-b border-gray-700 px-3 py-1 rounded-md focus:outline-none" />
-                                    <button className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
+                                    <input value={countPets} type="number" className="w-16 text-xl text-center border-b border-gray-700 px-3 py-1 rounded-md focus:outline-none" />
+                                    <button onClick={() => setCountPets((prev) => Math.min(prev + 1, cardData.Guests.Pets))} className="btn btn-square border-none btn-md bg-slate-400 focus:outline-none hover:bg-slate-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                         </svg>
@@ -98,41 +134,51 @@ function Card() {
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
-
-                    <div className="divider"></div>
-
-                    <div className='flex gap-10'>
-                        <h6>₹2,886 x 5 nights :</h6>
-                        <h6>₹14,432</h6>
+                    <div class="divider"></div>
+                    <div class="flex gap-10">
+                        {!isNaN(diffInDays) && (
+                            <h6>₹{cardData?.Price} x {diffInDays} nights:</h6>
+                        )}
+                        {!isNaN(diffInDays) && (
+                            <h6>₹{cardData?.Price * diffInDays} nights:</h6>
+                        )}
+                    </div>
+                    <div class="flex gap-7">
+                        <h6>Orcube service fee:</h6>
+                        <h6>₹2000</h6>
                     </div>
 
-                    <div className='flex gap-7'>
-                        <h6>Orcube service fee :</h6>
-                        <h6>₹14,432</h6>
+                    <div className="gap-5 flex mt-5 ">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <div>
+                                <DatePicker
+                                    label="First Date"
+                                    value={firstDate}
+                                    onChange={handleFirstDateChange}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </div>
+                            <div>
+                                <DatePicker
+                                    label="Second Date"
+                                    value={secondDate}
+                                    onChange={handleSecondDateChange}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </div>
+                        </LocalizationProvider>
+
                     </div>
-
-
-
+                    {/* <div className='mt-5'>
+                        <button className="btn btn-accent">Check Availability</button>
+                    </div> */}
                     <div class="mt-10 flex flex-col items-center justify-between space-y-4 border-t gap-3 border-b py-4 sm:flex-row sm:space-y-0">
                         <div class="flex items-end">
-                            <h1 class="text-3xl font-bold">$60.50</h1>
-                            <span class="text-base">/night</span>
+                            <span class="text-base">Total</span>
+                            <h1 class="text-3xl font-bold">₹{Total || 2000}</h1>
                         </div>
-
-                        <button className="btn btn-accent">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                            Reserve
-                        </button>
+                        <button onClick={() => handleCheckout()} className="btn btn-success btn-wide">Reserve</button>
                     </div>
-
                     <ul class="mt-8 space-y-2">
                         <li class="flex items-center text-left text-sm font-medium text-gray-600">
                             <svg class="mr-2 block h-5 w-5 align-middle text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -140,7 +186,6 @@ function Card() {
                             </svg>
                             Free shipping worldwide
                         </li>
-
                         <li class="flex items-center text-left text-sm font-medium text-gray-600">
                             <svg class="mr-2 block h-5 w-5 align-middle text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" class=""></path>
@@ -151,6 +196,7 @@ function Card() {
                 </div>
             </div>
         </div>
+
     )
 }
 

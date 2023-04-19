@@ -5,6 +5,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/usersRoutes")
 const adminRoutes = require("./routes/adminRoutes")
 const hostRoutes = require("./routes/hostRoutes")
+const stripe = require("./routes/stripe")
 
 // const User = require('./models/userModel')
 
@@ -41,6 +42,7 @@ mongoose.connection.on("connected", () => {
 app.use("/api/user", userRoutes)
 app.use("/api/admin", adminRoutes)
 app.use("/api/host", hostRoutes)
+app.use("/api/stripe", stripe)
 
 
 
