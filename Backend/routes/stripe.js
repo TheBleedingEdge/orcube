@@ -5,9 +5,7 @@ const rateLimit = require('express-rate-limit');
 
 require("dotenv").config();
 
-const STRIPE_KEY = 'sk_test_51MwQ7VSDFkq5k31rDMeVO9PKU4c47qr42fAxbyc6V7WiR5vNDlX4lFL0q9ctJq5PcaBOLo70VcHDupihhdPzRJ2e00ocA86yDj'
-
-const stripe = Stripe(STRIPE_KEY)
+const stripe = Stripe(process.env.STRIPE_KEY)
 
 const router = express.Router()
 

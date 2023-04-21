@@ -1,13 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const Space = require("../models/SpaceModel");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-const dotenv = require("dotenv");
+const dotenv = require('dotenv')
 const multer = require('multer')
 const multerS3 = require('multer-s3')
 const crypto = require('crypto');
 const sharp = require('sharp')
 
-dotenv.config()
+dotenv.config({ path: './config/.env' })
 
 const bucketName = process.env.BUCKET_NAME
 const region = process.env.BUCKET_REGION
