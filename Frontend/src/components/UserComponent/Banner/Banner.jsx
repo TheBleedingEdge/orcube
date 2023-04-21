@@ -2,16 +2,16 @@ import React from 'react'
 
 function Banner() {
     return (
-            <div class="mt-5 mx-auto bg-im h-96 rounded-md flex items-center bg-center bg-cover" style={{ backgroundImage: `url('https://in.musafir.com/uploads/banner_6d96d9b9a1.png')` }}>
-                <div class="sm:ml-20 text-gray-50 text-center sm:text-left">
-                    <h1 class="text-5xl font-bold mb-4">
-                        Book saunas <br />
-                        everywhere.
-                    </h1>
-                    <p class="text-lg inline-block sm:block">The largest online community to rent saunas in Finland.</p>
-                    <button class="mt-8 px-4 py-2 bg-gray-600 rounded">Browse saunas</button>
+        <div className="hero min-h-screen" style={{ backgroundImage: `url("https://img5.goodfon.com/original/1680x1050/8/26/andrei-chizh-fonari-prichal-reka-nebo-vecher.jpg")` }}>
+            <div className="hero-overlay bg-opacity-60"></div>
+            <div className="hero-content text-center text-neutral-content">
+                <div className="max-w-md">
+                    <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
+                    <p className="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+                    <button className="btn btn-primary">Get Started</button>
                 </div>
             </div>
+        </div>
     )
 }
 
