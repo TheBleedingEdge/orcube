@@ -6,8 +6,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import './card.css';
 import axios from '../../../../config/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-function Card({ cardData }) {
+function Card({ cardData, spaceid }) {
 
     const [countAdult, setCountAdult] = useState(1);
     const [countChildren, setCountChildren] = useState(1);
@@ -18,29 +20,60 @@ function Card({ cardData }) {
     const [Total, setTotal] = useState(0);
 
     const diffInDays = dayjs(secondDate).diff(dayjs(firstDate), 'day');
+    const [isSameDate, setIsSameDate] = useState(false);
+    const [available, setAvailable] = useState(false);
+
+    const navigate = useNavigate();
+    const userLogin = useSelector((state) => state.userLogin)
+    const { loading, userInfo } = userLogin;
 
     const handleFirstDateChange = (newValue) => {
-        setFirstDate(newValue);
+        if (newValue) {
+            setFirstDate(newValue);
+        }
     };
 
     const handleSecondDateChange = (newValue) => {
         setSecondDate(newValue);
+        if (firstDate === secondDate) {
+            setIsSameDate(true);
+        }
     };
+
+    const checkAvailability = async () => {
+        try {
+            const response = await axios.post('/api/user/check-availability', {
+                spaceid,
+                firstDate,
+                secondDate,
+            });
+
+            const data = response.data;
+            setAvailable(data.available);
+        } catch (error) {
+            console.error('Error while checking availability:', error);
+        }
+    };
+
+    useEffect(() => {
+        checkAvailability()
+    }, [secondDate])
 
     useEffect(() => {
         { setTotal(cardData?.Price * diffInDays + 2000) }
     }, [diffInDays])
 
     const handleCheckout = () => {
-        axios.post('api/stripe/create-checkout-session', {
-            countAdult,countChildren,countPets,firstDate,secondDate,Total,diffInDays
-        })
-        .then((res)=>{
-            if (res.data.url) {
-                window.location.href = res.data.url
-            }
-        })
-        .catch((err) => console.log(err.message))
+        const BookingDetails = { countAdult, countChildren, countPets, firstDate, secondDate, Total, diffInDays, Total, cardData, userInfo, spaceid }
+        const jsonString = JSON.stringify(BookingDetails);
+        localStorage.setItem('bookingInfo', jsonString);
+        axios.post('api/stripe/create-checkout-session', { countAdult, countChildren, countPets, firstDate, secondDate, Total, diffInDays, Total, cardData })
+            .then((res) => {
+                if (res.data.url) {
+                    window.location.href = res.data.url
+                }
+            })
+            .catch((err) => console.log(err.message))
     }
 
 
@@ -155,6 +188,7 @@ function Card({ cardData }) {
                                     label="First Date"
                                     value={firstDate}
                                     onChange={handleFirstDateChange}
+                                    disablePast="true"
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </div>
@@ -163,21 +197,40 @@ function Card({ cardData }) {
                                     label="Second Date"
                                     value={secondDate}
                                     onChange={handleSecondDateChange}
+                                    disablePast="true"
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </div>
                         </LocalizationProvider>
-
+                    </div>
+                    <div>
+                        {
+                            available ? null : <p className='text-red-600'>Date not available</p>
+                        }
                     </div>
                     {/* <div className='mt-5'>
                         <button className="btn btn-accent">Check Availability</button>
                     </div> */}
                     <div class="mt-10 flex flex-col items-center justify-between space-y-4 border-t gap-3 border-b py-4 sm:flex-row sm:space-y-0">
-                        <div class="flex items-end">
+                        <div>
                             <span class="text-base">Total</span>
                             <h1 class="text-3xl font-bold">₹{Total || 2000}</h1>
                         </div>
-                        <button onClick={() => handleCheckout()} className="btn btn-success btn-wide">Reserve</button>
+                        {userInfo ? (
+                            available && firstDate && secondDate ? (
+                                <button onClick={() => handleCheckout()} className="btn btn-success btn-wide">
+                                    Reserve
+                                </button>
+                            ) : (
+                                <button className="btn btn-success btn-wide" disabled>
+                                    Reserve
+                                </button>
+                            )
+                        ) : (
+                            <button onClick={()=>{navigate('/login')}} className="btn btn-success btn-wide">
+                                Login to Reserve
+                            </button>
+                        )}
                     </div>
                     <ul class="mt-8 space-y-2">
                         <li class="flex items-center text-left text-sm font-medium text-gray-600">
@@ -195,7 +248,7 @@ function Card({ cardData }) {
                     </ul>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }

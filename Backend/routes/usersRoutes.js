@@ -8,5 +8,7 @@ userRouter.route("/register").post(user.registerUser);
 userRouter.route("/getspaces").get(user.getSpaces);
 userRouter.route("/login").post(user.loginUser);
 userRouter.route("/details/:id").get(user.clickProduct);
+userRouter.route("/check-availability").post(user.checkAvailability);
+userRouter.route("/getbookingdetails").post(user.getbookingDetails)
 
 module.exports = userRouter;

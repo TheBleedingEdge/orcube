@@ -1,6 +1,30 @@
-import React from 'react'
-
+import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
+import axios from '../../../config/axios';
+import { useSelector } from 'react-redux';
 function PaymentSuccess() {
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const sessionId = params.get('session_id');
+
+    const storedObjString = localStorage.getItem('bookingInfo');
+    const storedObj = JSON.parse(storedObjString);
+    let serverreply;
+
+    useEffect(() => {
+        axios.post("api/stripe/verify-session", {
+            sessionId,storedObj
+        })
+    }, [sessionId]);
+
+    // useEffect(() => {
+    //     axios.post("api/stripe/initiatebook", {
+    //         storedObj
+    //     })
+    // }, [serverreply]);
+
+
+
     return (
         <div class="bg-gray-100 h-screen">
             <div class="bg-white p-6  md:mx-auto">

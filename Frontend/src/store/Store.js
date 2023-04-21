@@ -9,13 +9,12 @@ import hostUploadSlice from "../features/hostSlice/hostUploadSlice";
 
 const store = configureStore({
   reducer: {
-    //   userLogin: userLoginReducer,
     userRegister: userRegisterSlice,
     userLogin: userLoginSlice,
     adminShowUsers: adminShowUsersSlice,
     getToApproveSpace: getToApproveSpaceSlice,
     getSpaces: getSpaceSlice,
-    hostUpload: hostUploadSlice
+    hostUpload: hostUploadSlice,
   },
 })
 

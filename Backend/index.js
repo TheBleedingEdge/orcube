@@ -7,6 +7,7 @@ const adminRoutes = require("./routes/adminRoutes")
 const hostRoutes = require("./routes/hostRoutes")
 const stripe = require("./routes/stripe")
 
+
 // const User = require('./models/userModel')
 
 
@@ -21,7 +22,6 @@ dotenv.config({ path: "./config/.env" })
 // }));
 app.use(cors())
 app.use(Express.json());
-
 
 const connect = async () => {
     try {

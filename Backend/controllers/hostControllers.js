@@ -9,10 +9,10 @@ const sharp = require('sharp')
 
 dotenv.config()
 
-const bucketName = 'orcubeimages'
-const region = 'ap-south-1'
-const accessKeyId = 'AKIA2WM2T5PRMATCO6UR'
-const secretAccessKey = '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'
+const bucketName = process.env.BUCKET_NAME
+const region = process.env.BUCKET_REGION
+const accessKeyId = process.env.ACCESS_KEY
+const secretAccessKey = process.env.SECRET_ACCESS_KEY
 
 const s3 = new S3Client({
     region,

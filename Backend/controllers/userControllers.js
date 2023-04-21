@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Space = require("../models/SpaceModel")
+const Booking = require("../models/bookingModel")
 const generateToken = require("../util/generateToken");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
@@ -91,4 +92,43 @@ module.exports = {
             console.log(error);
         }
     }),
+
+    
+    checkAvailability : asyncHandler(async (req, res) => {
+        const { spaceid, firstDate, secondDate } = req.body;
+
+        try {
+          const overlappingBookings = await Booking.find({
+            spaceID: spaceid,
+            startDate: { $lt: secondDate },
+            endDate: { $gt: firstDate },
+            isCancelled: false,
+          });
+
+          if (overlappingBookings.length > 0) {
+            res.status(200).json({ available: false });
+          } else {
+            res.status(200).json({ available: true });
+          }
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'An error occurred while checking availability' });
+        }
+    }),
+
+    getbookingDetails: asyncHandler(async(req,res)=>{
+        const { userInfo } = req.body;
+
+        try {
+            console.log(userInfo);
+            const bookingData = await Booking.find({userID:userInfo._id}).populate('spaceID')
+            if(bookingData){
+                res.status(200).json(bookingData)
+            }else{
+                res.status(500).json({message: 'Error occured while fetching Booking Data'})
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    })
 }

@@ -8,7 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const {userInfo} = userLogin;
+  const { userInfo } = userLogin;
 
   const handleLogout = () => {
     localStorage.removeItem('userInfo');
@@ -37,13 +37,15 @@ const Header = () => {
         </label>
         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
           <li>
-            <a className="justify-between">
-              Profile
-              <span className="badge">New</span>
-            </a>
+            {userInfo ?
+              <Link className="justify-between" to="/account">
+                Profile
+                <span className="badge">New</span>
+              </Link> : null
+            }
           </li>
           <li><a>Settings</a></li>
-          <li onClick={()=>{handleLogout()}}><a>Logout</a></li>
+          <li onClick={() => { handleLogout() }}><a>Logout</a></li>
         </ul>
       </div>
     </div>

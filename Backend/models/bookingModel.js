@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const bookingSchema = mongoose.Schema(
     {
-        user: {
+        userID: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'users',
             required: true,
         },
-        space: {
+        spaceID: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'spaces',
+            ref: 'Space',
             required: true,
         },
         startDate: {
@@ -41,14 +41,14 @@ const bookingSchema = mongoose.Schema(
             required: true,
             default: false,
         },
-        payment_status: {
+        bookingApproved: {
             type: Boolean,
             required: true,
             default: false,
         },
         createdAt: {
             type: Date,
-            default: Date.now,
+            default: () => new Date(),
         },
     }
 );

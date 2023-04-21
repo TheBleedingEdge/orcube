@@ -10,8 +10,6 @@ export const getUsers = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-
-    console.log("getting users");
     const config = {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
@@ -27,6 +25,7 @@ export const getUsers = () => async (dispatch, getState) => {
     dispatch(adminShowUserFail(error))
   }
 }
+
 
 export const changeStatus = (id) => async (dispatch, getState) => {
   try {

@@ -109,7 +109,7 @@ function ProductDetails() {
                     </div>
 
                     <div className='w-full lg:py-20 ' style={{ display: 'flex', position: "relative", alignItems: 'center', justifyContent: 'center' }}>
-                        <Card cardData={productData} />
+                        <Card cardData={productData} spaceid={id} />
                     </div>
 
                 </div>
