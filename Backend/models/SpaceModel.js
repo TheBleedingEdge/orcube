@@ -7,6 +7,11 @@ const spaceSchema = mongoose.Schema(
             required: true,
             ref: 'User'
         },
+        BookingID: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Booking',
+            required: false,
+        },
         Title: {
             type: String,
             required: true,

@@ -38,7 +38,6 @@ const bookingSchema = mongoose.Schema(
         },
         isCancelled: {
             type: Boolean,
-            required: true,
             default: false,
         },
         bookingApproved: {
@@ -52,6 +51,7 @@ const bookingSchema = mongoose.Schema(
         },
     }
 );
+
 
 const Booking = mongoose.model("Booking", bookingSchema);
 

@@ -11,6 +11,31 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = 'uibfdUYVDBFbdfib234'
 
 
+const searchSpaces = async (location, startDate, endDate, numberOfAdults) => {
+    const spaces = await Space.find({
+        Location: { $regex: new RegExp(location, 'i') },
+        Guests: {
+            Adult: { $gte: numberOfAdults },
+        },
+    }).populate('BookingID').exec();
+
+    console.log("SPaces is here", spaces);
+
+    const availableSpaces = spaces.filter(space => {
+        // Check if the space is available for the given date range
+        const bookings = space.bookings.filter(booking =>
+            (booking.startDate < endDate && booking.endDate > startDate) &&
+            !booking.isCancelled &&
+            booking.bookingApproved
+        );
+
+        return bookings.length === 0;
+    });
+
+    return availableSpaces;
+};
+
+
 module.exports = {
     //register
     registerUser: asyncHandler(async (req, res) => {
@@ -74,7 +99,7 @@ module.exports = {
 
     getSpaces: asyncHandler(async (req, res) => {
         try {
-            const spacedocs = await Space.find({isApproved: true});
+            const spacedocs = await Space.find({ isApproved: true });
             res.json(spacedocs)
         } catch (error) {
             console.log(error);
@@ -93,42 +118,75 @@ module.exports = {
         }
     }),
 
-    
-    checkAvailability : asyncHandler(async (req, res) => {
+
+    checkAvailability: asyncHandler(async (req, res) => {
         const { spaceid, firstDate, secondDate } = req.body;
 
         try {
-          const overlappingBookings = await Booking.find({
-            spaceID: spaceid,
-            startDate: { $lt: secondDate },
-            endDate: { $gt: firstDate },
-            isCancelled: false,
-          });
+            const overlappingBookings = await Booking.find({
+                spaceID: spaceid,
+                startDate: { $lt: secondDate },
+                endDate: { $gt: firstDate },
+                isCancelled: false,
+            });
 
-          if (overlappingBookings.length > 0) {
-            res.status(200).json({ available: false });
-          } else {
-            res.status(200).json({ available: true });
-          }
+            if (overlappingBookings.length > 0) {
+                res.status(200).json({ available: false });
+            } else {
+                res.status(200).json({ available: true });
+            }
         } catch (error) {
-          console.error(error);
-          res.status(500).json({ message: 'An error occurred while checking availability' });
+            console.error(error);
+            res.status(500).json({ message: 'An error occurred while checking availability' });
         }
     }),
 
-    getbookingDetails: asyncHandler(async(req,res)=>{
+    getbookingDetails: asyncHandler(async (req, res) => {
         const { userInfo } = req.body;
 
         try {
             console.log(userInfo);
-            const bookingData = await Booking.find({userID:userInfo._id}).populate('spaceID')
-            if(bookingData){
+            const bookingData = await Booking.find({ userID: userInfo._id }).populate('spaceID')
+            if (bookingData) {
                 res.status(200).json(bookingData)
-            }else{
-                res.status(500).json({message: 'Error occured while fetching Booking Data'})
+            } else {
+                res.status(500).json({ message: 'Error occured while fetching Booking Data' })
             }
         } catch (error) {
             console.error(error);
         }
+    }),
+
+
+    // In your controller or route handler
+
+    searchSpaces: asyncHandler(async (req, res) => {
+        try {
+            const { location, checkIn, checkOut, guests } = req.body;
+            const allSpaces = await Space.find({
+                Location: { $regex: new RegExp(location, 'i') },
+                'Guests.Adult': { $gte: guests },
+            });
+        
+            // Find space IDs with active bookings within the given date range
+            const activeBookingSpaceIds = await Booking.find(
+                {
+                    startDate: { $lte: checkOut },
+                    endDate: { $gte: checkIn },
+                    isCancelled: false,
+                },
+                'spaceID'
+            ).distinct('spaceID');
+        
+            // Filter out spaces that have active bookings within the specified date range
+            const spaces = allSpaces.filter(space => !activeBookingSpaceIds.includes(space._id));
+            console.log("searched spaces", spaces);
+            res.status(200).json(spaces);
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'An error occurred while searching for spaces.' });
+        }
     })
+
 }
