@@ -49,7 +49,7 @@ function App() {
         <Route path='/user/checkout_success' element={userInfoFromStorage? <PaymentSuccess />: <Navigate to="/login" replace/>} />
 
         {/* //adminroutes */}
-        <Route path="/admin/dashboard" element={<AuthWrapper isAuthenticated={isAuthenticated} user={userRole} allowedRoles={['isAdmin']} > <Dashboard /> </AuthWrapper>} />
+        <Route path="/admin/account" element={<AuthWrapper isAuthenticated={isAuthenticated} user={userRole} allowedRoles={['isAdmin']} > <Dashboard /> </AuthWrapper>} />
         <Route path="/admin" element={<AuthWrapper isAuthenticated={isAuthenticated} user={userRole} allowedRoles={['isAdmin']} > <Dashboard /> </AuthWrapper>} />
 
         {/* //hostroutes */}
