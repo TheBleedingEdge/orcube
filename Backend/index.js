@@ -8,18 +8,11 @@ const hostRoutes = require("./routes/hostRoutes")
 const stripe = require("./routes/stripe")
 
 
-// const User = require('./models/userModel')
 
 
 const app = Express();
 dotenv.config({ path: "./config/.env" })
 
-
-
-// app.use(cors({
-//     credentials: true,
-//     origin: 'http://127.0.0.1/5000'
-// }));
 app.use(cors())
 app.use(Express.json());
 

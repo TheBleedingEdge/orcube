@@ -13,7 +13,7 @@ import PaymentSuccess from './screens/User/PaymentSuccess/PaymentSuccess';
 import Page404 from './components/common/page404';
 
 //adminroute
-import Dashboard from './screens/Admin/dashboard/dashboard';
+import Dashboard from './screens/Admin/account/Account';
 import AuthWrapper from './auth/AuthWrapper';
 
 //Hotsroote
