@@ -6,14 +6,13 @@ import Home from './screens/User/Home/Home';
 import Login from './screens/User/Login/Login';
 import UserAccount from './screens/User/UserAccount/UserAccount';
 import ProductDetails from './screens/User/ProductDetails/ProductDetails';
-import BecomeHost from './screens/User/BecomeHost/BecomeHost';
 import Register from './screens/User/Register/Register';
 import Checkout from './screens/User/Checkout/Checkout';
 import PaymentSuccess from './screens/User/PaymentSuccess/PaymentSuccess';
 import Page404 from './components/common/page404';
 
 //adminroute
-import Dashboard from './screens/Admin/account/Account';
+import Dashboard from './screens/Admin/Account/Account';
 import AuthWrapper from './auth/AuthWrapper';
 
 //Hotsroote
@@ -43,8 +42,7 @@ function App() {
         <Route path='/productdetails/:id' element={<ProductDetails />} />
 
         {/* //userroute */}
-        <Route path='/account' element={userInfoFromStorage ? <UserAccount /> : <Navigate to="/login" replace/> } />
-        <Route path='/user/becomehost' element={userInfoFromStorage ? <BecomeHost />: <Navigate to="/login" replace/> } />
+        <Route path='user/account' element={userInfoFromStorage ? <UserAccount /> : <Navigate to="/login" replace/> } />
         <Route path='/user/checkout' element={userInfoFromStorage ? <Checkout />: <Navigate to="/login" replace/> } />
         <Route path='/user/checkout_success' element={userInfoFromStorage? <PaymentSuccess />: <Navigate to="/login" replace/>} />
 

@@ -3,6 +3,7 @@ import SideBar from '../../../components/UserComponent/SideBar/SideBar'
 import Table from '../../../components/UserComponent/Table/Table'
 import ShowBookingCard from '../../../components/UserComponent/Card/ShowBookingCard'
 import Header from '../../../components/common/Header'
+import MyAccommodation from '../MyAccommodations/MyAccommodation'
 
 function UserAccount() {
 
@@ -16,7 +17,7 @@ function UserAccount() {
         <div className="drawer-content items-center justify-center">
             {activeSidebar === 'Bookings' ? <ShowBookingCard/> : null}
             {activeSidebar === 'Profile' }
-            {activeSidebar === 'Accommodation'}
+            {activeSidebar === 'Accommodation' ? <MyAccommodation/>:null}
         </div>
 
 

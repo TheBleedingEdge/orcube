@@ -3,7 +3,7 @@ import UsersTable from '../../../components/AdminComponent/Table/userTable'
 import HostTable from '../../../components/AdminComponent/Table/hostTable'
 import Header from '../../../components/common/Header'
 import CardContainer from '../../../components/AdminComponent/spaceCardContainer/CardContainer'
-import ChartLine from '../../../components/AdminComponent/Dashboard/Dashboard'
+import DashChart from '../../../components/AdminComponent/Dashboard/Dashboard'
 
 function Dashboard() {
 
@@ -15,7 +15,7 @@ function Dashboard() {
       <div className="drawer drawer-mobile">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content items-center justify-center">
-          {activeSidebar === 'Dashboard' ? <ChartLine /> : null}
+          {activeSidebar === 'Dashboard' ? <DashChart /> : null}
           {activeSidebar === 'Users' ? <UsersTable /> : null}
           {activeSidebar === 'SpaceApproval' ? <CardContainer /> : null}
           {activeSidebar === 'Hosts' ? <HostTable /> : null}

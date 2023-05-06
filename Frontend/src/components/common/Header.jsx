@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
@@ -38,13 +37,13 @@ const Header = () => {
         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
           <li>
             {userInfo ?
-              <Link className="justify-between" to="/account">
+              <div onClick={() => navigate("/user/account")} className="justify-between">
                 Profile
                 <span className="badge">New</span>
-              </Link> : null
+              </div> : null
             }
           </li>
-          <li><a>Settings</a></li>
+          {/* <li><a>Settings</a></li> */}
           <li onClick={() => { handleLogout() }}><a>Logout</a></li>
         </ul>
       </div>

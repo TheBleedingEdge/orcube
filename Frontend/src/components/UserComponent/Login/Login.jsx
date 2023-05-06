@@ -13,19 +13,19 @@ function Login() {
     const dispatch = useDispatch();
 
     const userInfoFromStorage = localStorage.getItem('userInfo')
-    ? JSON.parse(localStorage.getItem('userInfo'))
-    : null;
+        ? JSON.parse(localStorage.getItem('userInfo'))
+        : null;
 
     const userLogin = useSelector((state) => state.userLogin)
     const { loading, userInfo } = userLogin;
 
 
     useEffect(() => {
-        if(userInfoFromStorage && !userInfoFromStorage?.isAdmin){
+        if (userInfoFromStorage && !userInfoFromStorage?.isAdmin) {
             navigate("/")
         }
         else if (userInfoFromStorage?.isAdmin) {
-            navigate("/admin/dashboard");
+            navigate("/admin/account");
         }
         else {
             navigate("/login");
@@ -33,7 +33,7 @@ function Login() {
     }, [userInfoFromStorage])
 
 
-    
+
     const loginHandler = () => {
         dispatch(loginUser(email, password))
     }

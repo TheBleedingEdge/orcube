@@ -11,31 +11,6 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = 'uibfdUYVDBFbdfib234'
 
 
-const searchSpaces = async (location, startDate, endDate, numberOfAdults) => {
-    const spaces = await Space.find({
-        Location: { $regex: new RegExp(location, 'i') },
-        Guests: {
-            Adult: { $gte: numberOfAdults },
-        },
-    }).populate('BookingID').exec();
-
-    console.log("SPaces is here", spaces);
-
-    const availableSpaces = spaces.filter(space => {
-        // Check if the space is available for the given date range
-        const bookings = space.bookings.filter(booking =>
-            (booking.startDate < endDate && booking.endDate > startDate) &&
-            !booking.isCancelled &&
-            booking.bookingApproved
-        );
-
-        return bookings.length === 0;
-    });
-
-    return availableSpaces;
-};
-
-
 module.exports = {
     //register
     registerUser: asyncHandler(async (req, res) => {
@@ -84,6 +59,7 @@ module.exports = {
                     email: userData.email,
                     isAdmin: userData.isAdmin,
                     isHost: userData.isHost,
+                    isApplied: userData.isApplied,
                     token: generateToken(userData._id, jwtSecret, {}),
                 });
             }
