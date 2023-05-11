@@ -123,7 +123,7 @@ function ProductDetails() {
                 {/* cooment and reviews */}
 
             </div>
-            <CommentReviews />
+            <CommentReviews spaceid={id} />
             <Footer />
         </div>
     )

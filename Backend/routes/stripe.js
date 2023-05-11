@@ -60,6 +60,7 @@ router.post('/verify-session',apiLimiter, async (req, res) => {
             const post = await Booking.create({
                 userID: storedObj.userInfo._id,
                 spaceID: storedObj.spaceid,
+                HostID: storedObj.cardData.HostId,
                 startDate: storedObj.firstDate,
                 endDate: storedObj.secondDate,
                 numberOfAdults: storedObj.countAdult,

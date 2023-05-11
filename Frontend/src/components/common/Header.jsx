@@ -1,18 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
-
   const navigate = useNavigate();
 
   const userLogin = useSelector((state) => state.userLogin);
+
   const { userInfo } = userLogin;
+
 
   const handleLogout = () => {
     localStorage.removeItem('userInfo');
-    navigate('/');
+    window.location.assign('/')
+    window.location.reload();
+
   }
+
+  const handleLoginNavigation = () => {
+    navigate('/login');
+  };
 
   return (
     <div className="w-full navbar bg-cyan-600 z-30 fixed">
@@ -25,7 +32,7 @@ const Header = () => {
       <div className="flex-none hidden lg:block">
         <ul className="menu menu-horizontal">
           {/* <!-- Navbar menu content here --> */}
-          <li className='shadow-md'><a>{userInfo?.name}</a></li>
+          <li className=''><a>{userInfo?.name}</a></li>
         </ul>
       </div>
       <div className="dropdown dropdown-end">
@@ -43,7 +50,9 @@ const Header = () => {
               </div> : null
             }
           </li>
-          {/* <li><a>Settings</a></li> */}
+          {!userInfo && (
+            <li onClick={handleLoginNavigation}><a>Login</a></li>
+          )}
           <li onClick={() => { handleLogout() }}><a>Logout</a></li>
         </ul>
       </div>

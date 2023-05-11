@@ -12,5 +12,10 @@ userRouter.route("/check-availability").post(user.checkAvailability);
 userRouter.route("/getbookingdetails").post(user.getbookingDetails);
 userRouter.route("/getbookingdetails").post(user.getbookingDetails);
 userRouter.route("/search").post(user.searchSpaces);
+userRouter.route("/cancelbook/:bookingId").post(user.cancelBooking);
+userRouter.route("/submitreviews").post(user.createReview);
+userRouter.route("/getreviews").post(user.getReviews);
+userRouter.route("/getuserdata/:userId").get(user.getUser);
+userRouter.route("/submitprofile/:userId").put(user.updateUser);
 
 module.exports = userRouter;

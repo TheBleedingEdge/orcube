@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import TabComponent from '../UserAccount/Tab/TabComponent';
 
 function MyAccommodation() {
 
@@ -11,6 +12,8 @@ function MyAccommodation() {
             setUserinfo(userinfo);
         }
     }, []);
+
+
 
 
     return (
@@ -80,7 +83,7 @@ function MyAccommodation() {
                                             </div>
 
                                             <div class="md:col-span-2">
-                                                <label for="soda">How many soda pops?</label>
+                                                <label for="soda">Upload Doc here</label>
                                                 <input type="file" className="file-input file-input-bordered w-full max-w-xs" />
                                             </div>
 
@@ -95,10 +98,6 @@ function MyAccommodation() {
                                 </div>
                             </div>
                         </div>
-
-                        <a href="https://www.buymeacoffee.com/dgauderman" target="_blank" class="md:absolute bottom-0 right-0 p-4 float-right">
-                            <img src="https://www.buymeacoffee.com/assets/img/guidelines/logo-mark-3.svg" alt="Buy Me A Coffee" class="transition-all rounded-full w-14 -rotate-45 hover:shadow-sm shadow-lg ring hover:ring-4 ring-white" />
-                        </a>
                     </div>
                 </div>
             ) : Userinfo && Userinfo.isApplied ? (
@@ -107,9 +106,9 @@ function MyAccommodation() {
                 </div>
             ) : Userinfo && Userinfo.isHost && !Userinfo.isApplied ? (
                 <div>
-                    Data here
+                    <TabComponent />
                 </div>
-            ):(null)}
+            ) : (null)}
         </div>
     )
 }

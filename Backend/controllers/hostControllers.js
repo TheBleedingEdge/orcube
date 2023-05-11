@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Space = require("../models/SpaceModel");
+const Booking = require("../models/bookingModel")
+const mongoose = require('mongoose');
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const dotenv = require('dotenv')
 const multer = require('multer')
@@ -21,9 +23,6 @@ const s3 = new S3Client({
         secretAccessKey,
     },
 });
-
-
-
 
 
 module.exports = {
@@ -56,8 +55,8 @@ module.exports = {
                 Price,
                 Guests,
                 Perks,
-                coordinates:hostcoord,
-                Location:inputValue
+                coordinates: hostcoord,
+                Location: inputValue
             });
 
             const savedPost = await post.save();
@@ -129,5 +128,150 @@ module.exports = {
             console.log(error);
         }
     }),
+
+    getBookings: asyncHandler(async (req, res) => {
+        try {
+            const { spaceid, hostId } = req.body;
+            const spaceID = spaceid;
+            const currentDate = new Date();
+            const bookings = await Booking.find({ hostId: hostId ,isCancelled:false }).populate({
+                path: 'spaceID',
+                model: 'Space'
+            });
+
+            const previousBookings = bookings.filter(
+                (booking) => booking.endDate < currentDate
+            );
+
+            const upcomingBookings = bookings.filter(
+                (booking) => booking.startDate > currentDate
+            );
+            res.status(200).json({ previousBookings, upcomingBookings })
+
+
+        } catch (error) {
+            console.error("Error fetching upcoming bookings:", error);
+            throw error;
+        }
+    }),
+
+
+    approveBooking: asyncHandler(async (req, res) => {
+        try {
+            const bookingId = req.params.bookingId;
+            const booking = await Booking.findById(bookingId);
+
+            if (booking) {
+                booking.bookingApproved = !booking.bookingApproved;
+                const updatedBooking = await booking.save();
+                res.status(200).json(updatedBooking);
+            } else {
+                res.status(404).json({ message: 'Booking not found' });
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Error approving booking', error });
+        }
+    }),
+
+    cancelBooking: asyncHandler(async (req, res) => {
+        try {
+            const bookingId = req.params.bookingId;
+            const booking = await Booking.findById(bookingId);
+
+            if (booking) {
+                booking.isCancelled = !booking.isCancelled;
+                const updatedBooking = await booking.save();
+                res.status(200).json(updatedBooking);
+            } else {
+                res.status(404).json({ message: 'Booking not found' });
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Error cancelling booking', error });
+        }
+    }),
+
+    getBookMonthPercentage: asyncHandler(async (req, res) => {
+        try {
+          const hostId = req.params.HostId;
+            console.log("here id host",hostId);
+          const totalBookings = await Booking.countDocuments({ HostID: hostId });
+      
+          const bookingsPerMonth = await Booking.aggregate([
+            {
+              $match: { HostID: mongoose.Types.ObjectId(hostId) },
+            },
+            {
+              $project: {
+                month: { $month: "$createdAt" },
+                year: { $year: "$createdAt" },
+              },
+            },
+            {
+              $group: {
+                _id: { month: "$month", year: "$year" },
+                count: { $sum: 1 },
+              },
+            },
+            {
+              $sort: {
+                "_id.year": 1,
+                "_id.month": 1,
+              },
+            },
+          ]);
+          const bookingsPerMonthPercentage = bookingsPerMonth.map((entry) => ({
+            ...entry,
+            percentage: (entry.count / totalBookings) * 100,
+          }));
+      
+          res.status(201).json(bookingsPerMonthPercentage)
+        } catch (error) {
+          console.log(error);
+        }
+      }),
+
+
+      getMonthlyIncome: asyncHandler(async (req, res) => {
+        const hostID = req.params.hostID; // assuming you're getting hostID from the route parameters
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const pipeline = [
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(currentYear, 0, 1),
+                        $lt: new Date(currentYear + 1, 0, 1)
+                    },
+                    isCancelled: false,
+                    HostID: mongoose.Types.ObjectId(hostID) // add host condition
+                    // if you also want to consider specific space, you can add: spaceID: mongoose.Types.ObjectId(spaceID)
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    },
+                    totalIncome: { $sum: "$totalCost" }
+                }
+            },
+            {
+                $sort: {
+                    "_id.year": 1,
+                    "_id.month": 1
+                }
+            }
+        ];
+      
+        try {
+            const monthlyIncome = await Booking.aggregate(pipeline);
+            res.status(201).json(monthlyIncome)
+        } catch (error) {
+            console.error("Error getting monthly income:", error);
+            return [];
+        }
+    })
+      
 
 }

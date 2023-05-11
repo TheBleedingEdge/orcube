@@ -1,0 +1,57 @@
+{
+    "countAdult": 1,
+    "countChildren": 1,
+    "countPets": 0,
+    "firstDate": "2023-05-18T18:30:00.000Z",
+    "secondDate": "2023-05-19T18:30:00.000Z",
+    "Total": 12800,
+    "diffInDays": 1,
+    "cardData": {
+        "PicData": {
+            "ImageUrl": [
+                "https://orcubeimages.s3.ap-south-1.amazonaws.com/1683187734951",
+                "https://orcubeimages.s3.ap-south-1.amazonaws.com/1683187734952",
+                "https://orcubeimages.s3.ap-south-1.amazonaws.com/1683187734958",
+                "https://orcubeimages.s3.ap-south-1.amazonaws.com/1683187734961",
+                "https://orcubeimages.s3.ap-south-1.amazonaws.com/1683187734966"
+            ]
+        },
+        "coordinates": {
+            "latitude": 18.51518517182231,
+            "longitude": 73.95117297468664
+        },
+        "Guests": {
+            "Adult": 2,
+            "Children": 1,
+            "Pets": 1
+        },
+        "Perks": {
+            "isWifi": false,
+            "isParking": true,
+            "isTv": true,
+            "isKtchen": true,
+            "isEntrance": false
+        },
+        "_id": "645368783b36285929d9f4b9",
+        "HostId": "64535f6f703495cb4d04166a",
+        "Title": "Casa Tehmina.Lonavala; a cottage in the forest!",
+        "Address": "Gevhande Apati, Maharashtra, India",
+        "Discription": "Cozy cottage set among forests of Sahayadri . Spectacular views and water falls during monsoon. Ideal for trekking or a quiet commune with nature.\n\nOn Amby Valley road (30 mins from Lonavala) it is close to Machan, Mahindra Pawna Lake Resort and Hilton Shillim.\nRelax on the lawns of a large garden surrounded by flowers and trees. The cottage is furnished with colonial furniture and has all modern amenities with a fully functional kitchen.",
+        "Price": 10800,
+        "Location": "Gevhande, Velhe, Pune, Maharashtra, India",
+        "isApproved": true,
+        "createdAt": "2023-05-04T08:10:32.212Z",
+        "updatedAt": "2023-05-04T08:11:55.379Z",
+        "__v": 0
+    },
+    "userInfo": {
+        "_id": "64535f6f703495cb4d04166a",
+        "name": "Arjunan",
+        "email": "arjunan@gmail.com",
+        "isAdmin": true,
+        "isHost": true,
+        "isApplied": false,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTM1ZjZmNzAzNDk1Y2I0ZDA0MTY2YSIsImlhdCI6MTY4MzUyOTg2OCwiZXhwIjoxNjg2MTIxODY4fQ.EUcpUCFn-8jWRKy1DkR80SPMj0u0SNG-NMuOt4n6YIg"
+    },
+    "spaceid": "645368783b36285929d9f4b9"
+}

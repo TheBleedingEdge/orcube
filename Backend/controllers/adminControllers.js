@@ -96,7 +96,7 @@ module.exports = {
     }),
 
 
-    getMonthlyIncome: asyncHandler(async(req,res)=> {
+   getMonthlyIncome: asyncHandler(async(req,res)=> {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
         const pipeline = [

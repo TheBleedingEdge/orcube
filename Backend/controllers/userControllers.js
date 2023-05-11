@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Space = require("../models/SpaceModel")
 const Booking = require("../models/bookingModel")
+const Review = require('../models/reviewModel');
 const generateToken = require("../util/generateToken");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
@@ -143,7 +144,7 @@ module.exports = {
                 Location: { $regex: new RegExp(location, 'i') },
                 'Guests.Adult': { $gte: guests },
             });
-        
+
             // Find space IDs with active bookings within the given date range
             const activeBookingSpaceIds = await Booking.find(
                 {
@@ -153,7 +154,7 @@ module.exports = {
                 },
                 'spaceID'
             ).distinct('spaceID');
-        
+
             // Filter out spaces that have active bookings within the specified date range
             const spaces = allSpaces.filter(space => !activeBookingSpaceIds.includes(space._id));
             console.log("searched spaces", spaces);
@@ -163,6 +164,99 @@ module.exports = {
             console.error(error);
             res.status(500).json({ message: 'An error occurred while searching for spaces.' });
         }
+    }),
+
+    cancelBooking: asyncHandler(async (req, res) => {
+        try {
+            const bookingId = req.params.bookingId;
+            const booking = await Booking.findById(bookingId);
+
+            if (booking) {
+                booking.isCancelled = true; // Set isCancelled to true
+                const updatedBooking = await booking.save();
+                res.status(200).json(updatedBooking);
+            } else {
+                res.status(404).json({ message: 'Booking not found' });
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Error cancelling booking', error });
+        }
+    }),
+
+
+    createReview: asyncHandler(async (req, res) => {
+        try {
+            const newReview = new Review({
+                spaceID: req.body.spaceID,
+                userID: req.body.userID,
+                rating: req.body.rating,
+                comment: req.body.comment,
+                userName: req.body.userName,
+                createdAt: new Date()
+            });
+
+            const savedReview = await newReview.save();
+
+            res.status(201).json(savedReview);
+        } catch (error) {
+            res.status(500).json({ message: 'Error creating review', error });
+        }
+    }),
+
+
+
+    getReviews: asyncHandler(async (req, res) => {
+        try {
+            const { spaceid } = req.body;
+
+            const reviews = await Review.find({
+                spaceID: spaceid,
+            }) // replace 'name' with the actual field for user's name in your User model
+
+            res.status(200).json(reviews);
+        } catch (error) {
+            res.status(500).json({ message: 'Error fetching reviews', error });
+        }
+    }),
+
+    getUser: asyncHandler(async (req, res) => {
+        try {
+            const user = await User.findById(req.params.userId);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            res.json(user);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Server error' });
+        }
+    }),
+
+    updateUser: asyncHandler(async (req, res) => {
+        try {
+            const { name, email, Address, City, State, Pincode } = req.body;
+            const user = await User.findById(req.params.userId);
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            user.name = name;
+            user.email = email;
+            user.Address = Address;
+            user.City = City;
+            user.State = State;
+            user.Zipcode = Pincode;
+
+            await user.save();
+
+            res.json(user);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Server error' });
+        }
     })
+
 
 }

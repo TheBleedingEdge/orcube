@@ -4,12 +4,16 @@ const bookingSchema = mongoose.Schema(
     {
         userID: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'users',
+            ref: 'User',
             required: true,
         },
         spaceID: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Space',
+            required: true,
+        },
+        HostID: {
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
         startDate: {
