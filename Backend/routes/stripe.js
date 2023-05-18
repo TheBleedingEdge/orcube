@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 const Booking = require('../models/bookingModel')
 const rateLimit = require('express-rate-limit');
 
-dotenv.config({ path: './config/.env' });
+dotenv.config();
 
 const stripe = Stripe(process.env.STRIPE_KEY)
 
