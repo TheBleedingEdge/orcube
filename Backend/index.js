@@ -11,7 +11,7 @@ const stripe = require("./routes/stripe")
 
 
 const app = Express();
-dotenv.config({ path: "./config/.env" })
+dotenv.config()
 
 app.use(cors())
 app.use(Express.json());
