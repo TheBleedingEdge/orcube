@@ -9,6 +9,7 @@ const TabComponent = () => {
 
   const userLogin = useSelector((state) => state.userLogin)
   const { loading, userInfo } = userLogin;
+  const hostId = userInfo._id
 
   const config = {
     headers: {
@@ -18,7 +19,7 @@ const TabComponent = () => {
   };
 
   const getbookdata = async () => {
-    const { data } = await axios.post("/api/host/getbookingdata", {}, config)
+    const { data } = await axios.post("/api/host/getbookingdata", {hostId}, config)
     if (data) {
       setPreviousBookings(data.previousBookings);
       setUpcomingBookings(data.upcomingBookings);

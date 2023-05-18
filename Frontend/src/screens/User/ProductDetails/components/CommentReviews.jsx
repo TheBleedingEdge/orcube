@@ -37,8 +37,6 @@ function CommentReviews({ spaceid }) {
       return;
     }
 
-    console.log("Here is the commet", comment);
-
     try {
       const { data } = await axios.post('/api/user/submitreviews', {
         spaceID: spaceid,  // Replace this with actual space ID

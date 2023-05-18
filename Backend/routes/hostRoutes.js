@@ -10,6 +10,6 @@ router.route("/spaceupload").post(auth.protect,auth.protectHost,Host.getSpace);
 router.route("/getbookingdata").post(auth.protect,auth.protectHost,Host.getBookings);
 router.route("/approvebook/:bookingId").post(auth.protect,auth.protectHost,Host.approveBooking);
 router.route("/getbookpercent/:HostId").post(Host.getBookMonthPercentage);
-router.route("/getmonthlyincome/:HostID").get(Host.getMonthlyIncome);
+router.route("/getmonthlyincome/:hostID").get(Host.getMonthlyIncome);
 
 module.exports = router;

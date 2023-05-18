@@ -2,7 +2,7 @@ import React from 'react'
 
 function Banner() {
     return (
-        <div className="hero min-h-screen" style={{ backgroundImage: `url("https://img5.goodfon.com/original/1680x1050/8/26/andrei-chizh-fonari-prichal-reka-nebo-vecher.jpg")` }}>
+        <div className="hero h-7/10" style={{ backgroundImage: `url("https://img5.goodfon.com/original/1680x1050/8/26/andrei-chizh-fonari-prichal-reka-nebo-vecher.jpg")` }}>
             <div className="hero-overlay bg-opacity-60"></div>
             <div className="hero-content text-center text-neutral-content">
                 <div className="max-w-md">

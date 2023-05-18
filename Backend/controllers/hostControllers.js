@@ -134,9 +134,8 @@ module.exports = {
             const { spaceid, hostId } = req.body;
             const spaceID = spaceid;
             const currentDate = new Date();
-            const bookings = await Booking.find({ hostId: hostId ,isCancelled:false }).populate({
-                path: 'spaceID',
-                model: 'Space'
+            const bookings = await Booking.find({ hostId: hostId }).populate({
+                path: 'spaceID'
             });
 
             const previousBookings = bookings.filter(

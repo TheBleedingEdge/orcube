@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
@@ -16,6 +17,10 @@ const Header = () => {
     window.location.reload();
 
   }
+
+  const accountnav = () => {
+    navigate("/user/account");
+  };
 
   const handleLoginNavigation = () => {
     navigate('/login');
@@ -36,25 +41,12 @@ const Header = () => {
         </ul>
       </div>
       <div className="dropdown dropdown-end">
-        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-          <div className="w-10 rounded-full">
-            <img src="https://media.istockphoto.com/id/1316420668/vector/user-icon-human-person-symbol-social-profile-icon-avatar-login-sign-web-user-symbol.jpg?s=612x612&w=0&k=20&c=AhqW2ssX8EeI2IYFm6-ASQ7rfeBWfrFFV4E87SaFhJE=" />
-          </div>
-        </label>
-        <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-          <li>
-            {userInfo ?
-              <div onClick={() => navigate("/user/account")} className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </div> : null
-            }
-          </li>
-          {!userInfo && (
-            <li onClick={handleLoginNavigation}><a>Login</a></li>
-          )}
-          <li onClick={() => { handleLogout() }}><a>Logout</a></li>
-        </ul>
+        <label tabIndex={0} className="btn btn-ghost rounded-btn">{userInfo?(userInfo?.name):null}</label>
+        <div tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+          {/* <Link to='/login'><a>Login</a></Link> */}
+          <Link to='/user/account'><a>Profile</a></Link>
+          <a onClick={handleLogout}>Logout</a>
+        </div>
       </div>
     </div>
   )
