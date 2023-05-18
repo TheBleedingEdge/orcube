@@ -5,6 +5,8 @@ import MapboxHost from './components/mapboxhost';
 import { SpaceUpload } from '../../../actions/hostActions';
 import Header from '../../../components/common/Header';
 import { mapBoxKey } from '../../../config/mapbox';
+import { ToastContainer, toast } from "react-toastify"
+import { useNavigate } from 'react-router-dom'
 
 function HostUpload() {
 
@@ -27,6 +29,7 @@ function HostUpload() {
   const [longit, setLongtit] = useState(0);
   const [latit, setLatit] = useState(0);
  
+  const navigate = useNavigate();
 
   const handleInputChange = async (e) => {
     const value = e.target.value;
@@ -83,9 +86,12 @@ function HostUpload() {
     console.log(images);
     const { data } = await axios.post("http://127.0.0.1:5000/api/host/spaceuploadpic", formData, config);
     if (data != null) {
+      toast.success("Images successfully Uploaded")
       console.log('dataaa', data.locationArray);
       ref.current.imageurl = data.locationArray
       // imageurl = data;
+    }else{
+      toast.error("Error in image upload")
     }
   }
 
@@ -93,6 +99,8 @@ function HostUpload() {
     console.log("Imagae data here", ref.current.imageurl);
     const imageUrl = ref.current.imageurl
     dispatch(SpaceUpload(HostId, imageUrl, Title, Address, Discription, Price, isCheckedwifi, isCheckedparking, isCheckedtv, isCheckedkitchen, isCheckedentrance, countAdult, countChildren, countPets, hostcoord, inputValue))
+    toast.success("Space Saved Successfully")
+    navigate('/');
   }
 
   // const fileSelected = event => {
@@ -116,6 +124,7 @@ function HostUpload() {
     <div>
       <Header />
       <div className="px-10 py-20 bg-slate-50 rounded-lg shadow-xl">
+        <ToastContainer/>
         <div className='mb-5 mx-16'>
           <h1 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500'>Upload here</h1>
         </div>
@@ -285,7 +294,7 @@ function HostUpload() {
               </div>
             </section>
             <section className='my-20 justify-center '>
-              <button onClick={submitData} className="btn btn-md  w-1/3 bg-blue-400">Save</button>
+              <button onClick={submitData}  className="btn btn-md  w-1/3 bg-blue-400">Save</button>
             </section>
           </div>
 

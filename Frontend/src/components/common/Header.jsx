@@ -1,19 +1,30 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
-
   const navigate = useNavigate();
 
   const userLogin = useSelector((state) => state.userLogin);
+
   const { userInfo } = userLogin;
+
 
   const handleLogout = () => {
     localStorage.removeItem('userInfo');
-    navigate('/');
+    window.location.assign('/')
+    window.location.reload();
+
   }
+
+  const accountnav = () => {
+    navigate("/user/account");
+  };
+
+  const handleLoginNavigation = () => {
+    navigate('/login');
+  };
 
   return (
     <div className="w-full navbar bg-cyan-600 z-30 fixed">
@@ -26,27 +37,16 @@ const Header = () => {
       <div className="flex-none hidden lg:block">
         <ul className="menu menu-horizontal">
           {/* <!-- Navbar menu content here --> */}
-          <li className='shadow-md'><a>{userInfo?.name}</a></li>
+          <li className=''><a>{userInfo?.name}</a></li>
         </ul>
       </div>
       <div className="dropdown dropdown-end">
-        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-          <div className="w-10 rounded-full">
-            <img src="https://media.istockphoto.com/id/1316420668/vector/user-icon-human-person-symbol-social-profile-icon-avatar-login-sign-web-user-symbol.jpg?s=612x612&w=0&k=20&c=AhqW2ssX8EeI2IYFm6-ASQ7rfeBWfrFFV4E87SaFhJE=" />
-          </div>
-        </label>
-        <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-          <li>
-            {userInfo ?
-              <Link className="justify-between" to="/account">
-                Profile
-                <span className="badge">New</span>
-              </Link> : null
-            }
-          </li>
-          <li><a>Settings</a></li>
-          <li onClick={() => { handleLogout() }}><a>Logout</a></li>
-        </ul>
+        <label tabIndex={0} className="btn btn-ghost rounded-btn">{userInfo?(userInfo?.name):null}</label>
+        <div tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+          {/* <Link to='/login'><a>Login</a></Link> */}
+          <Link to='/user/account'><a>Profile</a></Link>
+          <a onClick={handleLogout}>Logout</a>
+        </div>
       </div>
     </div>
   )

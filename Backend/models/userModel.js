@@ -15,6 +15,22 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    Address: {
+      type: String,
+      default: "",
+    },
+    City: {
+      type: String,
+      default: "",
+    },
+    State: {
+      type: String,
+      default: "",
+    },
+    Zipcode: {
+      type: String,
+      default: "",
+    },
     isAdmin: {
       type: Boolean,
       required: true,
@@ -29,6 +45,11 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
+    },
+    isApplied: {
+      type:Boolean,
+      required: true,
+      default: false
     },
     mobile: {
       type: Number,

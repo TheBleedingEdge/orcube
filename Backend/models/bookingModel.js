@@ -4,12 +4,16 @@ const bookingSchema = mongoose.Schema(
     {
         userID: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'users',
+            ref: 'User',
             required: true,
         },
         spaceID: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Space',
+            required: true,
+        },
+        HostID: {
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
         startDate: {
@@ -38,7 +42,6 @@ const bookingSchema = mongoose.Schema(
         },
         isCancelled: {
             type: Boolean,
-            required: true,
             default: false,
         },
         bookingApproved: {
@@ -52,6 +55,7 @@ const bookingSchema = mongoose.Schema(
         },
     }
 );
+
 
 const Booking = mongoose.model("Booking", bookingSchema);
 

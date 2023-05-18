@@ -10,8 +10,8 @@ import { hostUploadReq, hostUploadSuccess, hostUploadFail } from '../../../../fe
 function MapboxHost({latit, longit}) {
 
     const [marker, setMarker] = useState({
-        longitude: 0,
-        latitude: 0
+        longitude: 78.9629,
+        latitude: 20.5937
     });
 
     console.log("place here", latit,longit);

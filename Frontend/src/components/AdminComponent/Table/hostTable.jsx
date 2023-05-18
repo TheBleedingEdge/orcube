@@ -31,7 +31,6 @@ function HostTable() {
   }
 
   const status = async(id) => {
-    console.log("user ID HERE",id);
     dispatch(changeStatus(id))
   }
 
@@ -58,7 +57,6 @@ function HostTable() {
 
         {userData?.map((data, index) => {
           if(data.isHost == true){
-            console.log("Data here is",data);
             return(<tbody>
             <tr key={index}>
               <th>

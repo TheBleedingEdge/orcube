@@ -1,9 +1,10 @@
 const express = require('express');
 const Stripe = require('stripe')
+const dotenv = require('dotenv')
 const Booking = require('../models/bookingModel')
 const rateLimit = require('express-rate-limit');
 
-require("dotenv").config();
+dotenv.config({ path: './config/.env' });
 
 const stripe = Stripe(process.env.STRIPE_KEY)
 
@@ -59,6 +60,7 @@ router.post('/verify-session',apiLimiter, async (req, res) => {
             const post = await Booking.create({
                 userID: storedObj.userInfo._id,
                 spaceID: storedObj.spaceid,
+                HostID: storedObj.cardData.HostId,
                 startDate: storedObj.firstDate,
                 endDate: storedObj.secondDate,
                 numberOfAdults: storedObj.countAdult,
