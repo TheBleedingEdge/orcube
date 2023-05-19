@@ -31,19 +31,23 @@ function CardContainer() {
     <div>
       <div className='overflow-x-auto mt-20 px-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
 
-        {toApprovespaceDocs?.map((data, index) => (
-          <div className="card bg-slate-400 card-compact w-50 shadow-xl">
-            <figure className='h-1/2 w:1/2'><img src={data.PicData.ImageUrl[0]} alt="Shoes" /></figure>
-            <div className="card-body">
-              <h2 className="card-title">{data.Title}</h2>
-              <p>{data.Discription.slice(0, 100) + "..."}</p>
-              <div className="card-actions justify-end">
-                {/* <label htmlFor="my-modal-5" className="btn btn-info">Details</label> */}
-                <button onClick={() => {status(data._id) && setIsToggled(!isToggled);}} className="btn btn-success">Approve</button>
+        {toApprovespaceDocs?(
+          toApprovespaceDocs.map((data, index) => (
+            <div className="card bg-slate-400 card-compact w-50 shadow-xl">
+              <figure className='h-1/2 w:1/2'><img src={data.PicData.ImageUrl[0]} alt="Shoes" /></figure>
+              <div className="card-body">
+                <h2 className="card-title">{data.Title}</h2>
+                <p>{data.Discription.slice(0, 100) + "..."}</p>
+                <div className="card-actions justify-end">
+                  {/* <label htmlFor="my-modal-5" className="btn btn-info">Details</label> */}
+                  <button onClick={() => {status(data._id) && setIsToggled(!isToggled);}} className="btn btn-success">Approve</button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ): <div className='mt-20'>
+          <h2>No Space Found</h2>
+        </div> }
 
       </div>
 

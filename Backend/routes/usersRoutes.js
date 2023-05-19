@@ -17,5 +17,7 @@ userRouter.route("/submitreviews").post(user.createReview);
 userRouter.route("/getreviews").post(user.getReviews);
 userRouter.route("/getuserdata/:userId").get(user.getUser);
 userRouter.route("/submitprofile/:userId").put(user.updateUser);
+userRouter.route("/resetpassword").post(user.getForgotPasswordLink);
+userRouter.route("/changepassword").post(user.resetPassword);
 
 module.exports = userRouter;

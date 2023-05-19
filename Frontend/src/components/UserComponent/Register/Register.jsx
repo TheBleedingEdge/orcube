@@ -209,7 +209,7 @@ function Register() {
                     </div>
                 </div>
 
-                <div className="card mx-auto w-full max-w-xl  shadow-xl">
+                <div className="card min-h-screen mx-auto w-full max-w-xl  shadow-xl">
                     <div className="  bg-base-100 rounded-xl">
                         <div className='py-14 px-10'>
                             <h2 className='text-2xl font-semibold mb-2 text-center mt-3'>Register</h2>
@@ -220,7 +220,7 @@ function Register() {
                                             <span className="label-text text-base-content bold "><b>First Name</b></span>
                                         </label>
                                         <input value={name}
-                                            onChange={ev => setName(ev.target.value)} type='text' placeholder='' name='name' className="input input-md input-bordered w-3/4 " />
+                                            onChange={ev => setName(ev.target.value)} type='text' placeholder='' name='name' className="input input-sm input-bordered w-3/4 " />
                                     </div>
                                 </div>
 
@@ -230,7 +230,7 @@ function Register() {
                                     </label>
 
                                     <input value={email}
-                                        onChange={ev => setEmail(ev.target.value)} type='email' placeholder='' name='email' className="input input-md  input-bordered w-3/4 " />
+                                        onChange={ev => setEmail(ev.target.value)} type='email' placeholder='' name='email' className="input input-sm  input-bordered w-3/4 " />
 
                                 </div>
 
@@ -240,7 +240,7 @@ function Register() {
                                     </label>
 
                                     <input value={password}
-                                        onChange={ev => setPassword(ev.target.value)} type="password" placeholder='' name='password' className="input input-md input-bordered w-3/4 " />
+                                        onChange={ev => setPassword(ev.target.value)} type="password" placeholder='' name='password' className="input input-sm input-bordered w-3/4 " />
 
                                 </div>
 
@@ -250,7 +250,7 @@ function Register() {
                                     </label>
 
                                     <input value={Cpassword}
-                                        onChange={ev => setCpassword(ev.target.value)} type="password" placeholder='' name='password' className="input input-md input-bordered w-3/4 " />
+                                        onChange={ev => setCpassword(ev.target.value)} type="password" placeholder='' name='password' className="input input-sm input-bordered w-3/4 " />
 
                                 </div>
 
@@ -272,7 +272,7 @@ function Register() {
                                             //         console.log(mobile)
                                             //     }} 
                                             ref={mobileno}
-                                            type="text" placeholder='' name='mobile' className="input input-md input-bordered w-3/4 " />
+                                            type="text" placeholder='' name='mobile' className="input input-sm input-bordered w-3/4 " />
                                         {
                                             timeLeft == 0 ? <button onClick={sentOtp} className="btn btn-info w-1/5 ml-5">
                                                 Sent OTP
@@ -292,15 +292,13 @@ function Register() {
                                     </label>
                                     <div className=''>
                                         <input type="number" value={otp}
-                                            onChange={ev => setOtp(ev.target.value)} placeholder='' className="input input-md input-bordered w-1/3 " />
+                                            onChange={ev => setOtp(ev.target.value)} placeholder='' className="input input-sm input-bordered w-1/3 " />
                                         <button onClick={verifyOTP} className="btn btn-info w-1/5 ml-5">Verify</button>
                                     </div>
                                 </div>
 
                             </div>
 
-                            <div className='text-right text-primary'><Link to="/forgot-password"><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Forgot Password?</span></Link>
-                            </div>
 
                             {/* <ErrorText styleClass="mt-8">{errorMessage}</ErrorText> */}
                             <button type="submit" onClick={() => {
