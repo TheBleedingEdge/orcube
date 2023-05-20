@@ -13,7 +13,8 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('userInfo');
-    navigate("/");
+    window.location.assign('/')
+    window.location.reload();
 
   }
 
@@ -26,7 +27,7 @@ const Header = () => {
   };
 
   return (
-    <div className="w-full navbar shadow-xl bg-cyan-500 rounded-xl z-30 fixed">
+    <div className="w-full navbar bg-cyan-600 rounded-xl shadow-xl z-30 fixed">
       <div className="flex-none lg:hidden">
         <label htmlFor="my-drawer-2" className="btn btn-square btn-ghost">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -45,9 +46,9 @@ const Header = () => {
         </svg>
         </label>
         <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-          {userInfo && userInfo ? (<li><Link to='/user/account'><a>Profile</a></Link></li>) : null}
-          {userInfo && userInfo ? (<li><a onClick={handleLogout}>Logout</a></li>) : null}
-          {!userInfo ? (<li><Link to='/login'>Login</Link></li>) : null}
+            {userInfo && userInfo ? (<li><Link to='/user/account'><a>Profile</a></Link></li>) : null}          
+          {userInfo && userInfo ? ( <li><a onClick={handleLogout}>Logout</a></li> ) : null}
+          {!userInfo ? ( <li><Link to='/login'>Login</Link></li> ) : null}
         </ul>
       </div>
     </div>

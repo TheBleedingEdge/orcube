@@ -264,72 +264,76 @@ module.exports = {
     getForgotPasswordLink: (async (req, res) => {
 
         const { email } = req.body;
-    
+
         try {
-          const oldUser = await User.findOne({ email });
-          if (!oldUser) {
-            return res.status(404).json({ status: "User Not Exists!!" });
-          }
-          const token = await generateToken(oldUser._id)
-          const link = `http://orcube.xyz/changepassword/${oldUser._id}/${token}`;
-    
-          var transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              user: "abhy.r010@gmail.com",
-              pass: "vrphagtstthsdtda",
-            },
-          });
-    
-          let info = await transporter.sendMail({
-            from: 'abhy.r010@gmail.com', // sender address
-            to: email, // list of receivers
-            subject: "Password Reset for Orcube", // Subject line
-            html: `<p>Hi there,</p>
+            const oldUser = await User.findOne({ email });
+            if (!oldUser) {
+                return res.status(404).json({ status: "User Not Exists!!" });
+            }
+            const token = await generateToken(oldUser._id)
+            const link = `http://localhost:3000/user/changepassword/${oldUser._id}/${token}`;
+
+            var transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "abhy.r010@gmail.com",
+                    pass: "vrphagtstthsdtda",
+                },
+            });
+
+            let info = await transporter.sendMail({
+                from: 'abhy.r010@gmail.com', // sender address
+                to: email, // list of receivers
+                subject: "Password Reset for Orcube", // Subject line
+                html: `<p>Hi there,</p>
                    <p>You have requested to reset your password for Lounge. Please click on the following link to reset your password:</p>
                    <a href="${link}">${link}</a>
                    <p>If you did not make this request, please ignore this email.</p>
                    <p>Best regards,</p>
                    <p>Orcube</p>`, // html body
-          });
-    
-          if (info) {
-            res.status(201).json({ message: "Link Sent" })
-          }
-          console.log("Message sent: %s", info.messageId);
-          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    
-    
-        } catch (error) {
-          console.log(error.message);
-        }
-    
-      }),
+            });
 
-      resetPassword: (async (req, res) => {
-
-        try {
-    
-          const { email, password } = req.body;
-          console.log(password);
-          const userData = await User.findOne({ email })
-    
-          if (!userData) {
-            res.status(404).json("Invalid Email")
-          } else {
-            console.log("11");
-            userData.password = bcrypt.hashSync(password, bcryptSalt);
-            const user = await userData.save();
-            console.log(user);
-            if (user) {
-              res.status(201).json({ user, host })
+            if (info) {
+                res.status(201).json({ message: "Link Sent" })
             }
-          }
-    
+            console.log("Message sent: %s", info.messageId);
+            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+
         } catch (error) {
-          console.log(error.message);
+            console.log(error.message);
         }
-    
-      }),
+
+    }),
+
+    resetPassword: (async (req, res) => {
+        console.log("came here");
+        const email = 'ayyappanpillai689@gmail.com'
+        try {
+
+            const { cpassword } = req.body;
+            console.log(cpassword);
+            const user = await User.find({ email })
+            console.log(user);
+
+            if (!user) {
+                res.status(404).json("Invalid Email")
+            } else {
+                console.log("12");
+                const ppassword = bcrypt.hashSync(cpassword, bcryptSalt);
+                user.password = ppassword;
+                console.log(user.password);
+                const userdata = await user.save();
+                console.log(userdata);
+                if (userdata) {
+                    res.status(201).json({ userdata, host })
+                }
+            }
+
+        } catch (error) {
+            console.log(error.message);
+        }
+
+    }),
 
 }

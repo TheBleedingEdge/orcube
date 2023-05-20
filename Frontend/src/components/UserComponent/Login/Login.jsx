@@ -22,16 +22,13 @@ function Login() {
 
 
     useEffect(() => {
-        if (userInfo && !userInfo?.isAdmin) {
-            navigate("/")
-        }
-        else if (userInfo && userInfo?.isAdmin) {
-            navigate("/admin/account");
-        }
-        else {
-            navigate("/login");
-        }
-    }, [userInfo])
+        if (userInfo) {
+                navigate("/")
+            }
+            else {
+                navigate("/login")
+            }
+        }, [userInfo])
 
 
 

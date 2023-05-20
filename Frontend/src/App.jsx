@@ -41,7 +41,7 @@ function App() {
         {/* User routes */}
         <Route path="/user/account" element={<UserAccount />} />
         <Route path="/user/resetpassword" element={<ResetPassword />} />
-        <Route path="/user/changepassword" element={ <Changepassword/> } />
+        <Route path="/user/changepassword/:id/:id" element={ <Changepassword/> } />
         <Route path="/user/checkout" element={isAuthenticated ? <Checkout /> : <Navigate to="/login" replace />} />
         <Route path="/user/checkout_success" element={isAuthenticated ? <PaymentSuccess /> : <Navigate to="/login" replace />} />
 

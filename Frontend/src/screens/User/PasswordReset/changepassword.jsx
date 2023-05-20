@@ -13,6 +13,10 @@ function Changepassword() {
         setPassword(e.target.value);
     };
 
+    const handleEmaiChange = (e) => {
+        setCpassword(e.target.value);
+    };
+
     const handleResetPassword = async () => {
         try {
             const config = {
@@ -21,17 +25,17 @@ function Changepassword() {
                 },
             };
             // Send a POST request to your API
-            const { data } = await axios.post('/api/user/changepassword', { password }, config);
+            const { data } = await axios.post('/api/user/changepassword', { cpassword }, config);
             // Notify the user that the email was sent
             if (data) {
 
-                alert('Your password email has been changed successfully');
+                alert('Your password changed successfully, Go to login');
                 navigate('/login')
 
             }
         } catch (err) {
             console.error(err);
-            alert('Failed to send reset password email. Please try again.');
+            alert('Failed to reset password. Please try again.');
         }
     };
 
@@ -58,15 +62,28 @@ function Changepassword() {
                                 <div className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
                                     <div className="mb-4">
                                         <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
-                                            Email
+                                            Password
                                         </label>
                                         <input
                                             className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             id="email"
                                             type="email"
-                                            placeholder="Enter Email Address..."
+                                            placeholder="Enter password"
                                             value={password}
                                             onChange={handleEmailChange}
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
+                                            Confirm Password
+                                        </label>
+                                        <input
+                                            className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                            id="email"
+                                            type="email"
+                                            placeholder="Enter password"
+                                            value={cpassword}
+                                            onChange={handleEmaiChange}
                                         />
                                     </div>
                                     <div className="mb-6 text-center">
@@ -75,7 +92,7 @@ function Changepassword() {
                                             type="button"
                                             onClick={handleResetPassword}
                                         >
-                                            Reset Password
+                                            Change Password
                                         </button>
                                     </div>
                                 </div>

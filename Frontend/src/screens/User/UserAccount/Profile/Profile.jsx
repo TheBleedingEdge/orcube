@@ -57,7 +57,7 @@ function Profile() {
         <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
             <div class="container max-w-screen-lg mx-auto">
                 <div>
-                    <h2 class="font-semibold text-xl text-gray-600">Apply for Host here</h2>
+                    <h2 class="font-semibold text-xl text-gray-600">Edit your Profile here</h2>
                     <p class="text-gray-500 mb-6">Fill all details correctly</p>
 
                     <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
