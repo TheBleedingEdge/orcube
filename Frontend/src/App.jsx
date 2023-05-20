@@ -18,6 +18,7 @@ import Page404 from './components/common/page404';
 // Auth Wrapper
 import AuthWrapper from './auth/AuthWrapper';
 import ResetPassword from './screens/User/PasswordReset/ResetPassword';
+import Changepassword from './screens/User/PasswordReset/changepassword';
 
 function App() {
   const userInfoFromStorage = JSON.parse(localStorage.getItem('userInfo'));
@@ -40,6 +41,7 @@ function App() {
         {/* User routes */}
         <Route path="/user/account" element={<UserAccount />} />
         <Route path="/user/resetpassword" element={<ResetPassword />} />
+        <Route path="/user/changepassword" element={ <Changepassword/> } />
         <Route path="/user/checkout" element={isAuthenticated ? <Checkout /> : <Navigate to="/login" replace />} />
         <Route path="/user/checkout_success" element={isAuthenticated ? <PaymentSuccess /> : <Navigate to="/login" replace />} />
 

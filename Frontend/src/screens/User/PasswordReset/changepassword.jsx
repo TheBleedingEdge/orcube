@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from '../../../config/axios';
 import { useNavigate } from 'react-router-dom';
 
-function ResetPassword() {
+function Changepassword() {
 
     const navigate = useNavigate();
 
@@ -89,4 +89,4 @@ function ResetPassword() {
     )
 }
 
-export default ResetPassword
+export default Changepassword
