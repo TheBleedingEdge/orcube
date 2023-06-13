@@ -29,7 +29,7 @@ function Dashboard() {
             <li><button onClick={() => { setActiveSidebar('Dashboard') }}>Dashboard</button></li>
             <li><button onClick={() => { setActiveSidebar('Users') }}>Users</button></li>
             <li><button onClick={() => { setActiveSidebar('Hosts') }}>Hosts</button></li>
-            <li><button onClick={() => { setActiveSidebar('SpaceApproval') }}>Space Approval</button></li>
+            <li><button onClick={() => { setActiveSidebar('SpaceApproval') }}>Penting Approval</button></li>
           </ul>
         </div>
       </div>

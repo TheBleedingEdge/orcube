@@ -40,7 +40,7 @@ router.post('/create-checkout-session', async (req, res) => {
         ],
         mode: 'payment',
         success_url: `${process.env.CLIENT_URL}/user/checkout_success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: 'http://localhost:5000/cancel',
+        cancel_url: 'http://orcube.xyz/cancel',
     });
     res.send({ url: session.url });
 });

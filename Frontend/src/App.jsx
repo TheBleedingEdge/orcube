@@ -17,6 +17,8 @@ import HostUpload from './screens/User/HostUpload/HostUpload';
 import Page404 from './components/common/page404';
 // Auth Wrapper
 import AuthWrapper from './auth/AuthWrapper';
+import ResetPassword from './screens/User/PasswordReset/ResetPassword';
+import Changepassword from './screens/User/PasswordReset/changepassword';
 
 function App() {
   const userInfoFromStorage = JSON.parse(localStorage.getItem('userInfo'));
@@ -37,12 +39,14 @@ function App() {
         <Route path="/productdetails/:id" element={<ProductDetails />} />
 
         {/* User routes */}
-        <Route path="/user/account" element={isAuthenticated ? <UserAccount /> : <Navigate to="/login" replace />} />
+        <Route path="/user/account" element={<UserAccount />} />
+        <Route path="/user/resetpassword" element={<ResetPassword />} />
+        <Route path="/user/changepassword/:id/:id" element={ <Changepassword/> } />
         <Route path="/user/checkout" element={isAuthenticated ? <Checkout /> : <Navigate to="/login" replace />} />
         <Route path="/user/checkout_success" element={isAuthenticated ? <PaymentSuccess /> : <Navigate to="/login" replace />} />
 
         {/* Admin routes */}
-        <Route path="/admin/account" element={isAuthenticated && userRole.isAdmin ? <Dashboard /> : <Navigate to="/login" replace />} />
+        <Route path="/admin/account" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} />
         <Route path="/admin" element={isAuthenticated && userRole.isAdmin ? <Dashboard /> : <Navigate to="/login" replace />} />
 
         {/* Host routes */}

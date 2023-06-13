@@ -22,22 +22,21 @@ function Login() {
 
 
     useEffect(() => {
-        if (userInfoFromStorage && !userInfoFromStorage?.isAdmin) {
-            navigate("/")
-        }
-        else if (userInfoFromStorage?.isAdmin) {
-            navigate("/admin/account");
-        }
-        else {
-            navigate("/login");
-        }
-    }, [userInfoFromStorage])
+        if (userInfo) {
+                navigate("/")
+            }
+            else {
+                navigate("/login")
+            }
+        }, [userInfo])
 
 
 
     const loginHandler = () => {
         dispatch(loginUser(email, password))
     }
+
+
 
 
     return (
@@ -58,7 +57,7 @@ function Login() {
 
 
 
-                <div className="card mx-auto w-full max-w-xl  shadow-xl">
+                <div className="card min-h-screen bg-white mx-auto w-full max-w-xl  shadow-xl">
                     <div className="  bg-base-100 rounded-xl">
                         <div className='py-24 px-10'>
                             <h2 className='text-2xl font-semibold mb-2 text-center'>Login</h2>

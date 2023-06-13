@@ -27,7 +27,7 @@ const Header = () => {
   };
 
   return (
-    <div className="w-full navbar bg-cyan-600 z-30 fixed">
+    <div className="w-full navbar bg-cyan-600 rounded-xl shadow-xl z-30 fixed">
       <div className="flex-none lg:hidden">
         <label htmlFor="my-drawer-2" className="btn btn-square btn-ghost">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -41,12 +41,15 @@ const Header = () => {
         </ul>
       </div>
       <div className="dropdown dropdown-end">
-        <label tabIndex={0} className="btn btn-ghost rounded-btn">{userInfo?(userInfo?.name):null}</label>
-        <div tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-          {/* <Link to='/login'><a>Login</a></Link> */}
-          <Link to='/user/account'><a>Profile</a></Link>
-          <a onClick={handleLogout}>Logout</a>
-        </div>
+        <label tabIndex={0} className="btn btn-ghost rounded-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        </label>
+        <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+            {userInfo && userInfo ? (<li><Link to='/user/account'><a>Profile</a></Link></li>) : null}          
+          {userInfo && userInfo ? ( <li><a onClick={handleLogout}>Logout</a></li> ) : null}
+          {!userInfo ? ( <li><Link to='/login'>Login</Link></li> ) : null}
+        </ul>
       </div>
     </div>
   )
